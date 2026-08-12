@@ -4,28 +4,19 @@ import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { differentiators } from "@/lib/site";
 
-/** Photo collage left, bordered paw-row list right - height follows content. */
+/** Photo left, bordered paw-row list right - image height matches content. */
 export function WhyChooseUs() {
   return (
     <section className="bg-cream px-5 py-[4.5rem] sm:px-8 sm:py-[6.875rem]">
-      <div className="mx-auto grid max-w-[1180px] items-start gap-14 lg:grid-cols-2 lg:gap-[5.625rem]">
-        <Reveal from="left" className="relative w-full max-w-[28rem] pb-16 sm:pb-20 lg:pb-24">
-          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[1.625rem] shadow-photo-lg">
+      <div className="mx-auto grid max-w-[1180px] items-stretch gap-14 lg:grid-cols-2 lg:gap-[5.625rem]">
+        <Reveal from="left" className="relative h-full min-h-[22rem] w-full">
+          <div className="relative h-full min-h-[22rem] overflow-hidden rounded-[1.625rem] shadow-photo-lg lg:absolute lg:inset-0 lg:min-h-0">
             <Image
               src="/images/why-owners-yard.jpg"
               alt="Two dogs looking up from the turf yard"
               fill
-              sizes="(min-width: 1024px) 28rem, 80vw"
+              sizes="(min-width: 1024px) 50vw, 90vw"
               className="object-cover object-center"
-            />
-          </div>
-          <div className="absolute bottom-0 right-0 h-[9.5rem] w-[9.5rem] overflow-hidden rounded-full border-[10px] border-cream shadow-photo sm:h-[13rem] sm:w-[13rem]">
-            <Image
-              src="/images/white-fluffy-groom.jpg"
-              alt="Small dog fresh from a groom"
-              fill
-              sizes="208px"
-              className="object-cover object-[center_18%]"
             />
           </div>
         </Reveal>

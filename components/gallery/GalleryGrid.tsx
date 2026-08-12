@@ -1,46 +1,14 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
+import { GalleryLightbox } from "@/components/gallery/GalleryLightbox";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
 import type { GalleryImage } from "@/lib/site";
 
 export function GalleryGrid({ images }: { images: GalleryImage[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const reduceMotion = useReducedMotion();
-
-  const close = useCallback(() => setActiveIndex(null), []);
-
-  const step = useCallback(
-    (direction: 1 | -1) =>
-      setActiveIndex((current) =>
-        current === null ? current : (current + direction + images.length) % images.length,
-      ),
-    [images.length],
-  );
-
-  useEffect(() => {
-    if (activeIndex === null) return;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
-      if (event.key === "ArrowRight") step(1);
-      if (event.key === "ArrowLeft") step(-1);
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [activeIndex, close, step]);
-
-  const active = activeIndex === null ? null : images[activeIndex];
 
   return (
     <>
@@ -76,79 +44,12 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
         ))}
       </div>
 
-      <AnimatePresence>
-        {active && (
-          <motion.div
-            role="dialog"
-            aria-modal="true"
-            aria-label={active.caption}
-            initial={reduceMotion ? undefined : { opacity: 0 }}
-            animate={reduceMotion ? undefined : { opacity: 1 }}
-            exit={reduceMotion ? undefined : { opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/92 p-4 backdrop-blur-sm sm:p-8"
-            onClick={close}
-          >
-            <button
-              type="button"
-              onClick={close}
-              aria-label="Close larger view"
-              className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/25 sm:right-6 sm:top-6"
-            >
-              <Icon name="cross" />
-            </button>
-
-            <button
-              type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                step(-1);
-              }}
-              aria-label="Previous photo"
-              className="absolute left-2 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/25 sm:left-6"
-            >
-              <Icon name="arrow-right" className="rotate-180" />
-            </button>
-
-            <button
-              type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                step(1);
-              }}
-              aria-label="Next photo"
-              className="absolute right-2 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/25 sm:right-6"
-            >
-              <Icon name="arrow-right" />
-            </button>
-
-            <motion.figure
-              initial={reduceMotion ? undefined : { opacity: 0, scale: 0.97 }}
-              animate={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
-              className="relative flex max-h-full w-full max-w-4xl flex-col items-center"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <div className="w-full">
-                <Image
-                  src={active.src}
-                  alt={active.alt}
-                  width={1400}
-                  height={1050}
-                  sizes="90vw"
-                  className="mx-auto h-auto max-h-[76vh] w-auto max-w-full rounded-[1.25rem] object-contain shadow-2xl"
-                />
-              </div>
-              <figcaption className="mt-5 text-center text-sm text-brand-100">
-                {active.caption}
-                <span className="ml-2 text-brand-200/70">
-                  {(activeIndex ?? 0) + 1} / {images.length}
-                </span>
-              </figcaption>
-            </motion.figure>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <GalleryLightbox
+        images={images}
+        activeIndex={activeIndex}
+        onClose={() => setActiveIndex(null)}
+        onChange={setActiveIndex}
+      />
     </>
   );
 }
