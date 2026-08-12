@@ -1,0 +1,22 @@
+pricing-body.html: 5 sections
+
+
+## SECTION 0
+bg: #fbf4e9
+Services | Pricing | The Yard | New Clients | Contact | (417) 501-1053 | Rates | What it costs | Daycare | Boarding | Grooming
+
+## SECTION 1
+bg: #ffffff
+Monday – Friday, 7:30 am to 6 pm | Daycare | How a daycare day works → | Option | One dog | Two dogs | Full day | 7:30 am to 6 pm | $30 | $50 | Half day | For short shifts and errands | $15 | $25 | 5 day package | $115 | $23 per day | $170 | $34 per day | 10 day package | $210 | $21 per day | $310 | $31 per day | 30 day package
+
+## SECTION 2
+bg: #fbf4e9
+Open weekends and holidays | Boarding | 1 dog | per night | $35 | 2 dogs | $60 | 3 dogs | $85 | Every 7th night | applied automatically | Free | Weekend drop-off and pickup: 8–11 am and 4–6 pm.
+
+## SECTION 3
+bg: #ffffff
+By appointment | Grooming | Full groom | Bath, cut, ears, and nails | Bath and tidy | Wash, dry, and a clean-up around face and feet | Nail trim | On its own, or added to a groom or boarding stay | Get a grooming quote
+
+## SECTION 4
+bg: #fbf4e9
+Come see us | Questions about a rate? | Call and we will tell you exactly what your dog’s week or stay would cost, packages includ | Ready to book your dog’s first day? | Call and we will walk you through openings, packages, and what to bring on day one. | Call {{ phone }} | Email us | Bring current Bordetella, DHPP, and Rabies records to your first visit.

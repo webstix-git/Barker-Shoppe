@@ -1,0 +1,76 @@
+Services
+Pricing
+The Yard
+New Clients
+Contact
+(417) 501-1053
+Home
+Dog Daycare
+Monday – Friday, 7:30 am to 6 pm
+A full day of turf, playgroups, and scheduled rest for the days you are gone longest. Half days cover the shorter ones, and regulars save with packages.
+Call to book a day
+See daycare rates
+Full day $30, half day $15
+Packages down to $19 a day
+Playgroups by size
+Second-dog rate available
+A day here
+Drop off, play, rest, repeat, home
+7:30
+Drop-off opens
+Come in any time after 7:30 am. Hand over food or medication and tell us anything different about the day.
+AM
+Into a playgroup
+Dogs go out with a group matched to their size and how social they are, on turf rather than dirt.
+PM
+Rest, then back out
+Everyone takes a break in the afternoon. Half days go home around midday instead.
+6:00
+Pickup by six
+Ask how the day went and you get a real answer from someone who was out there with them.
+Is daycare right for your dog?
+We will tell you honestly, even when the answer is no
+Group play suits most dogs and not all of them. Call and describe how yours does around other dogs, and we will say whether daycare, boarding, or nothing at all is the better call.
+Dogs who are comfortable in a group and enjoy other dogs
+Owners working long shifts who would rather not leave them home all day
+Young dogs with more energy than the backyard can burn off
+Daycare rates
+One dog, at a glance
+Full price list, including two dogs →
+Full day
+Drop off from 7:30 am, pickup by 6 pm
+$30
+Half day
+For short shifts and long errands
+$15
+5 day package
+$23 per day
+$115
+10 day package
+$21 per day
+$210
+30 day package
+$19 per day, the lowest daily rate we offer
+$570
+Come see us
+Book a day and see how it goes
+Most owners start with one full day before committing to a package. Call and we will find an opening this week.
+Ready to book your dog’s first day?
+Call and we will walk you through openings, packages, and what to bring on day one.
+Call {{ phone }}
+Email us
+Bring current Bordetella, DHPP, and Rabies records to your first visit.
+A locally owned dog daycare, boarding, and grooming shoppe on East Bennett. Dogs only, since 2015.
+Overnight Boarding
+Professional Grooming
+Visit
+1927 East Bennett St.
+Springfield, MO 65804
+Barkershoppe@gmail.com
+Hours
+Mon – Fri · 7:30 am – 6 pm
+Sat &amp; Sun · 8–11 am, 4–6 pm
+Facebook
+© 2026 The Barker Shoppe. All rights reserved.
+Bordetella, DHPP, and Rabies records required for all dogs.
+class Component extends DCLogic { renderVals() { return { phone: this.props.phone ?? "(417) 501-1053" }; } }

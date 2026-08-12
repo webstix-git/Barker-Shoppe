@@ -1,0 +1,26 @@
+services-body.html: 6 sections
+
+
+## SECTION 0
+bg: #fbf4e9
+Services | Pricing | The Yard | New Clients | Gallery | Contact | (417) 501-1053 | Home | What we do | Daycare, boarding, and grooming on East Bennett | Dog Daycare | Overnight Boarding | Professional Grooming | What to bring
+
+## SECTION 1
+bg: #ffffff
+Monday – Friday, 7:30 am to 6:00 pm | Dog Daycare | Playgroups by size | Sorted by size and social level, so the shy ones are not stuck with the bulldozers. | Half or full days | Pick what fits your shift. Regulars use multi-day passes instead of paying per visit. | Play and rest on rotation | Dogs go home tired instead of wound up, and nobody runs all day without a break. | Food and meds welcome | Send anything your dog takes during the day and we handle it at the right time. | More about daycare | Full day $30, half day $15, packages from $19 a day.
+
+## SECTION 2
+bg: #fbf4e9
+Open weekends and holidays | Overnight Boarding | Every 7th night free | Long trips cost less. The discount applies automatically on the seventh night. | Siblings together | Dogs from the same home can share a run instead of being split up. | Their food, their schedule | Send meals portioned however you like and note any medication at drop-off. | Weekend pickup hours | Saturday and Sunday, 8–11 am and 4–6 pm for drop-off and pickup. | Check availability | From $35 a night. Holidays fill early.
+
+## SECTION 3
+bg: #ffffff
+By appointment | Professional Grooming | Full groom | Bath, cut, ears, and nails, finished to the breed or the length you ask for | Bath and tidy | Wash, dry, and a clean-up around the face, feet, and sanitary areas | Nail trim | Quick visit on its own, or added to any groom or boarding stay | Groom before pickup | Book it into a boarding stay so they go home clean | Get a grooming quote | See all rates →
+
+## SECTION 4
+bg: #0d2c38
+Before your first visit | What every dog needs, whatever they are booked for | Bordetella | Required and current for every dog in the building | DHPP | Distemper combination, current on the date of the visit | Rabies | Proof of a current rabies vaccination | Bring along | Food for boarding stays, plus any medication with dosing notes
+
+## SECTION 5
+bg: #fbf4e9
+Come see us | Not sure which one your dog needs? | Ready to book your dog’s first day? | Call {{ phone }} | Email us | Walk-ins welcome during pickup hours. Bring current Bordetella, DHPP, and Rabies records.

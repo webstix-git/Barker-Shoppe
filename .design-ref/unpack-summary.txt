@@ -1,0 +1,3 @@
+daycare.html: html=33830 clean=33830 texts=76
+pricing.html: html=34546 clean=34546 texts=86
+services.html: html=36390 clean=36390 texts=79

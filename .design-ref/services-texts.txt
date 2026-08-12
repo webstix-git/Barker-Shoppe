@@ -1,0 +1,79 @@
+Services
+Pricing
+The Yard
+New Clients
+Gallery
+Contact
+(417) 501-1053
+Home
+What we do
+Daycare, boarding, and grooming on East Bennett
+Dog Daycare
+Overnight Boarding
+Professional Grooming
+What to bring
+Monday – Friday, 7:30 am to 6:00 pm
+Playgroups by size
+Sorted by size and social level, so the shy ones are not stuck with the bulldozers.
+Half or full days
+Pick what fits your shift. Regulars use multi-day passes instead of paying per visit.
+Play and rest on rotation
+Dogs go home tired instead of wound up, and nobody runs all day without a break.
+Food and meds welcome
+Send anything your dog takes during the day and we handle it at the right time.
+More about daycare
+Full day $30, half day $15, packages from $19 a day.
+Open weekends and holidays
+Every 7th night free
+Long trips cost less. The discount applies automatically on the seventh night.
+Siblings together
+Dogs from the same home can share a run instead of being split up.
+Their food, their schedule
+Send meals portioned however you like and note any medication at drop-off.
+Weekend pickup hours
+Saturday and Sunday, 8–11 am and 4–6 pm for drop-off and pickup.
+Check availability
+From $35 a night. Holidays fill early.
+By appointment
+Full groom
+Bath, cut, ears, and nails, finished to the breed or the length you ask for
+Bath and tidy
+Wash, dry, and a clean-up around the face, feet, and sanitary areas
+Nail trim
+Quick visit on its own, or added to any groom or boarding stay
+Groom before pickup
+Book it into a boarding stay so they go home clean
+Get a grooming quote
+See all rates →
+Before your first visit
+What every dog needs, whatever they are booked for
+The same three vaccinations apply to daycare, boarding, and grooming. Your vet can email records straight to us before you come in.
+Bordetella
+Required and current for every dog in the building
+DHPP
+Distemper combination, current on the date of the visit
+Rabies
+Proof of a current rabies vaccination
+Bring along
+Food for boarding stays, plus any medication with dosing notes
+Paperwork is filled out here at drop-off and takes a few minutes. There is no account to set up online.
+Come see us
+Not sure which one your dog needs?
+Tell us the days you are gone and how your dog does around others. We will tell you honestly what fits, including when the answer is nothing at all.
+Ready to book your dog’s first day?
+Call and we will walk you through openings, rates, and what to bring. Grooming quotes take about a minute over the phone.
+Call {{ phone }}
+Email us
+Walk-ins welcome during pickup hours. Bring current Bordetella, DHPP, and Rabies records.
+A locally owned dog daycare, boarding, and grooming shoppe on East Bennett. Dogs only, since 2015.
+Visit
+1927 East Bennett St.
+Springfield, MO 65804
+Barkershoppe@gmail.com
+Hours
+Mon – Fri · 7:30 am – 6 pm
+Sat &amp; Sun · 8–11 am, 4–6 pm
+Facebook
+© 2026 The Barker Shoppe. All rights reserved.
+Bordetella, DHPP, and Rabies records required for all dogs.
+class Component extends DCLogic { renderVals() { return { phone: this.props.phone ?? "(417) 501-1053" }; } }
