@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/layout/Logo";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
@@ -17,6 +17,41 @@ function isActive(pathname: string, href: string) {
 function DesktopItem({ link, pathname }: { link: NavLink; pathname: string }) {
   const active = isActive(pathname, link.href);
   const childActive = link.children?.some((child) => isActive(pathname, child.href));
+  const [open, setOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
+
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const openMenu = () => {
+    clearCloseTimer();
+    setOpen(true);
+  };
+
+  const scheduleClose = () => {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  const closeMenu = () => {
+    clearCloseTimer();
+    setOpen(false);
+    (document.activeElement as HTMLElement | null)?.blur();
+  };
 
   if (!link.children?.length) {
     return (
@@ -36,11 +71,18 @@ function DesktopItem({ link, pathname }: { link: NavLink; pathname: string }) {
   }
 
   return (
-    <div className="group relative">
+    <div
+      className="relative"
+      onMouseEnter={openMenu}
+      onMouseLeave={scheduleClose}
+    >
       <Link
         href={link.href}
         aria-current={active && !childActive ? "page" : undefined}
         aria-haspopup="true"
+        aria-expanded={open}
+        onClick={closeMenu}
+        onFocus={openMenu}
         className={cn(
           "inline-flex items-center gap-1 border-b-2 py-1.5 font-display text-[0.9375rem] font-semibold transition-colors duration-300 xl:text-[1rem]",
           active || childActive
@@ -51,11 +93,19 @@ function DesktopItem({ link, pathname }: { link: NavLink; pathname: string }) {
         {link.label}
         <Icon
           name="angle-small-down"
-          className="text-[0.85rem] transition-transform duration-300 group-hover:rotate-180"
+          className={cn(
+            "text-[0.85rem] transition-transform duration-300",
+            open && "rotate-180",
+          )}
         />
       </Link>
 
-      <div className="invisible absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-2 opacity-0 transition-[opacity,visibility] duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+      <div
+        className={cn(
+          "absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-2 transition-[opacity,visibility] duration-200",
+          open ? "visible opacity-100" : "invisible opacity-0 pointer-events-none",
+        )}
+      >
         <ul className="overflow-hidden rounded-[1rem] bg-white py-2 shadow-photo ring-1 ring-cream-dark">
           {link.children.map((child) => {
             const childIsActive = isActive(pathname, child.href);
@@ -64,6 +114,7 @@ function DesktopItem({ link, pathname }: { link: NavLink; pathname: string }) {
                 <Link
                   href={child.href}
                   aria-current={childIsActive ? "page" : undefined}
+                  onClick={closeMenu}
                   className={cn(
                     "block px-4 py-2.5 font-display text-[0.9rem] font-semibold transition-colors duration-200",
                     childIsActive
@@ -87,15 +138,17 @@ function MobileItem({
   pathname,
   openHref,
   onToggle,
+  onNavigate,
 }: {
   link: NavLink;
   pathname: string;
   openHref: string | null;
   onToggle: (href: string) => void;
+  onNavigate: () => void;
 }) {
   const active = isActive(pathname, link.href);
   const childActive = link.children?.some((child) => isActive(pathname, child.href));
-  const expanded = openHref === link.href || Boolean(childActive);
+  const expanded = openHref === link.href;
 
   if (!link.children?.length) {
     return (
@@ -103,6 +156,7 @@ function MobileItem({
         <Link
           href={link.href}
           aria-current={active ? "page" : undefined}
+          onClick={onNavigate}
           className={cn(
             "flex items-center justify-between border-b border-cream-dark py-3.5 font-display text-base font-semibold",
             active ? "text-wine" : "text-ink hover:text-wine",
@@ -120,6 +174,7 @@ function MobileItem({
         <Link
           href={link.href}
           aria-current={active && !childActive ? "page" : undefined}
+          onClick={onNavigate}
           className={cn(
             "flex-1 py-3.5 font-display text-base font-semibold",
             active || childActive ? "text-wine" : "text-ink hover:text-wine",
@@ -156,6 +211,7 @@ function MobileItem({
                   <Link
                     href={child.href}
                     aria-current={childIsActive ? "page" : undefined}
+                    onClick={onNavigate}
                     className={cn(
                       "block py-2.5 pl-4 pr-2 font-display text-[0.95rem] font-semibold",
                       childIsActive ? "text-wine" : "text-soft hover:text-wine",
@@ -298,6 +354,10 @@ export function Header() {
                     onToggle={(href) =>
                       setOpenSubmenu((current) => (current === href ? null : href))
                     }
+                    onNavigate={() => {
+                      setMenuOpen(false);
+                      setOpenSubmenu(null);
+                    }}
                   />
                 ))}
               </ul>
@@ -312,6 +372,10 @@ export function Header() {
                 </a>
                 <Link
                   href="/contact-us"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setOpenSubmenu(null);
+                  }}
                   className="flex w-full items-center justify-center rounded-pill bg-wine px-6 py-3.5 font-display text-base font-bold text-white"
                 >
                   Book an Appointment

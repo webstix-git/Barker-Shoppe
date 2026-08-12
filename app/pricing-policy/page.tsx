@@ -72,17 +72,17 @@ export default function PricingPage() {
                       <div
                         aria-hidden="true"
                         className={cn(
-                          "absolute bottom-0 left-0 h-[88%] w-[90%] rounded-arch",
-                          card.backdrop === "wine" ? "bg-wine-soft" : "bg-brand-200",
+                          "absolute bottom-0 left-0 h-[92%] w-[92%] rounded-[1.5rem] sm:rounded-[1.75rem]",
+                          card.backdrop === "wine" ? "bg-wine-soft" : "bg-[#A2C9D9]",
                         )}
                       />
-                      <div className="arch-frame relative aspect-[5/4]">
+                      <div className="relative aspect-[5/4] overflow-hidden rounded-[1.5rem] shadow-photo sm:rounded-[1.75rem]">
                         <Image
                           src={card.image.src}
                           alt={card.image.alt}
                           fill
                           sizes="(min-width: 1024px) 45vw, 90vw"
-                          className="object-cover transition-transform duration-700 ease-gentle group-hover:scale-[1.05]"
+                          className="object-cover object-top transition-transform duration-700 ease-gentle group-hover:scale-[1.05]"
                         />
                       </div>
                     </div>
@@ -93,7 +93,7 @@ export default function PricingPage() {
                       </span>
                       <h2 className="mt-5 text-display-md group-hover:text-wine">{card.label}</h2>
                       <p className="mt-4 max-w-xl text-body text-muted">{card.body}</p>
-                      <span className="text-link mt-7 inline-flex">Open page</span>
+                      <span className="text-link mt-7 inline-flex">Read more</span>
                     </div>
                   </Link>
                 </StaggerItem>

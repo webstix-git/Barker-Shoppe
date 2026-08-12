@@ -210,9 +210,9 @@ export default function RatesPage() {
           >
             <div
               aria-hidden="true"
-              className="absolute bottom-0 right-0 h-[88%] w-[90%] rounded-arch bg-wine-soft"
+              className="absolute bottom-0 right-0 h-[92%] w-[92%] rounded-[1.5rem] bg-wine-soft sm:rounded-[1.75rem]"
             />
-            <div className="arch-frame relative h-[22rem] sm:h-[28.75rem]">
+            <div className="relative h-[22rem] overflow-hidden rounded-[1.5rem] shadow-photo sm:h-[28.75rem] sm:rounded-[1.75rem]">
               <Image
                 src="/images/holiday-cream-doodle.jpg"
                 alt="Golden retriever posing at the holiday backdrop"
@@ -233,9 +233,9 @@ export default function RatesPage() {
           >
             <div
               aria-hidden="true"
-              className="absolute bottom-0 left-0 h-[88%] w-[90%] rounded-arch bg-brand-200"
+              className="absolute bottom-0 left-0 h-[92%] w-[92%] rounded-[1.5rem] bg-[#A2C9D9] sm:rounded-[1.75rem]"
             />
-            <div className="arch-frame relative h-[22rem] sm:h-[28.75rem]">
+            <div className="relative h-[22rem] overflow-hidden rounded-[1.5rem] shadow-photo sm:h-[28.75rem] sm:rounded-[1.75rem]">
               <Image
                 src="/images/poodle-after-groom.jpg"
                 alt="Freshly groomed doodle on the grooming table"

@@ -36,9 +36,9 @@ export default function StoryPage() {
             <div className="relative pb-5 pr-5 lg:sticky lg:top-28">
               <div
                 aria-hidden="true"
-                className="absolute bottom-0 right-0 h-[88%] w-[90%] rounded-arch-lg bg-brand-200"
+                className="absolute bottom-0 right-0 h-[92%] w-[92%] rounded-[1.75rem] bg-[#A2C9D9] sm:rounded-[2rem]"
               />
-              <div className="arch-frame-lg relative aspect-[4/5]">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] shadow-photo-lg sm:rounded-[2rem]">
                 <Image
                   src="/images/white-fluffy-groom.jpg"
                   alt="A freshly groomed small white dog on the grooming table"

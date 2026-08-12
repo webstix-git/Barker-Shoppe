@@ -19,11 +19,11 @@ export function FirstVisit() {
           <div className="relative overflow-hidden rounded-[1.75rem] shadow-photo-lg">
             <div className="relative aspect-[4/5] sm:aspect-[5/6]">
               <Image
-                src="/images/first-visit-yard.jpg"
-                alt="Dogs stacked together having fun in the yard"
+                src="/images/first-visit-aussie.jpg"
+                alt="Australian Shepherd looking up from the turf yard"
                 fill
                 sizes="(min-width: 1024px) 42vw, 90vw"
-                className="object-cover object-center"
+                className="object-cover object-[center_20%]"
               />
             </div>
           </div>
