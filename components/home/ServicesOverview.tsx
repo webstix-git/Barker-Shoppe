@@ -4,20 +4,22 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Icon, PawMark } from "@/components/ui/Icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { cn } from "@/lib/cn";
 import { services } from "@/lib/site";
 
 export function ServicesOverview() {
   return (
-    <section id="services" className="relative overflow-hidden bg-white py-24 sm:py-26">
+    <section id="services" className="relative overflow-hidden bg-[#B4D1DA] py-24 sm:py-26">
       <PawMark className="paw-deco right-[4.5rem] top-14 h-[150px] w-[150px] -rotate-[18deg] text-brand-500" />
       <PawMark className="paw-deco right-[13rem] top-[13.75rem] h-22 w-22 rotate-12 text-wine opacity-[0.13]" />
 
       <div className="container-page relative max-w-[1180px]">
         <SectionHeading
           overline="What We Do"
-          title="Three Services, One Front Door"
+          title={
+            <span className="whitespace-nowrap">Three Services, One Front Door</span>
+          }
           lead="Daycare, overnight boarding, and professional grooming - all in one place for Springfield dog owners."
+          className="max-w-none"
         />
 
         <Stagger className="mt-16 grid gap-12 md:grid-cols-3 md:gap-10 lg:gap-12">
@@ -27,10 +29,7 @@ export function ServicesOverview() {
                 <div className="group relative pb-[1.125rem] pl-[1.125rem] transition-transform duration-[420ms] ease-gentle hover:-translate-y-2.5">
                   <div
                     aria-hidden="true"
-                    className={cn(
-                      "absolute bottom-0 left-0 h-[88%] w-[90%] rounded-arch",
-                      service.backdrop === "wine" ? "bg-wine-soft" : "bg-brand-200",
-                    )}
+                    className="absolute bottom-0 left-0 h-[88%] w-[90%] rounded-arch bg-[#A2C9D9]"
                   />
                   <div className="arch-frame relative h-[22rem] transition-shadow duration-[420ms] group-hover:shadow-photo-hover sm:h-[25rem]">
                     <Image

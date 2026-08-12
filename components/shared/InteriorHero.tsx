@@ -9,7 +9,8 @@ import { cn } from "@/lib/cn";
 type JumpLink = { label: string; href: string };
 
 type InteriorHeroProps = {
-  overline: string;
+  /** @deprecated Unused — kept optional so existing callers stay valid. */
+  overline?: string;
   title: string;
   lead?: string;
   crumbs: Crumb[];
@@ -24,9 +25,8 @@ type InteriorHeroProps = {
   children?: ReactNode;
 };
 
-/** Cream interior banner matching the daycare / services / rates designs. */
+/** Interior page banner matching the daycare / services / rates designs. */
 export function InteriorHero({
-  overline,
   title,
   lead,
   crumbs,
@@ -43,7 +43,7 @@ export function InteriorHero({
 
   return (
     <>
-      <section className="relative overflow-hidden bg-cream">
+      <section className="relative overflow-hidden bg-[#FEFBF5]">
         {!split && (
           <>
             <PawMark className="paw-deco right-[-1.5rem] top-10 h-[9.5rem] w-[9.5rem] rotate-[18deg] text-brand-500 sm:right-8 sm:top-12 sm:h-[11rem] sm:w-[11rem]" />
@@ -55,30 +55,20 @@ export function InteriorHero({
           className={cn(
             "container-page relative z-[5]",
             split
-              ? "grid items-center gap-12 py-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-[4.5rem] lg:pb-20 lg:pt-16"
-              : "py-14 sm:py-[4.75rem]",
+              ? "grid items-center gap-12 pb-14 pt-[30px] lg:grid-cols-[1.02fr_0.98fr] lg:gap-[4.5rem] lg:pb-20"
+              : "pb-14 pt-[30px] sm:pb-[4.75rem]",
           )}
         >
           <div className={cn(!split && "w-full")}>
             <Reveal className="w-full">
               {splitLead && !split && lead ? (
                 <div className="grid items-end gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-                  <div>
-                    <div className="flex items-center gap-3.5">
-                      <span className="rule-accent" aria-hidden="true" />
-                      <p className="eyebrow text-wine">{overline}</p>
-                    </div>
-                    <h1 className="mt-5 text-display-xl">{title}</h1>
-                  </div>
+                  <h1 className="text-display-xl">{title}</h1>
                   <p className="max-w-xl text-subhead text-muted lg:pb-2">{lead}</p>
                 </div>
               ) : (
                 <>
-                  <div className="flex items-center gap-3.5">
-                    <span className="rule-accent" aria-hidden="true" />
-                    <p className="eyebrow text-wine">{overline}</p>
-                  </div>
-                  <h1 className="mt-5 text-display-xl">{title}</h1>
+                  <h1 className="text-display-xl">{title}</h1>
                   {lead ? (
                     <p
                       className={cn(
@@ -150,7 +140,7 @@ export function InteriorHero({
           )}
         </div>
 
-        <div className="h-3 w-full bg-pole-stripes" aria-hidden="true" />
+        <div className="h-1.5 w-full bg-pole-stripes" aria-hidden="true" />
       </section>
 
       <Breadcrumbs items={crumbs} current={current} />

@@ -15,7 +15,7 @@ const config: Config = {
           200: "#b1d0d8",
           300: "#7ebed6",
           400: "#4eafd0",
-          500: "#309ecf",
+          500: "#2396ce",
           600: "#1f7ba6",
           700: "#1a6488",
           800: "#174f6b",
@@ -29,7 +29,7 @@ const config: Config = {
           dark: "#6e151c",
         },
         cream: {
-          DEFAULT: "#fbf4e9",
+          DEFAULT: "#FEFBF5",
           dark: "#eadfcc",
           line: "#eadfcc",
         },
@@ -71,7 +71,7 @@ const config: Config = {
       },
       backgroundImage: {
         "pole-stripes":
-          "repeating-linear-gradient(115deg, #8b1c25 0 16px, #ffffff 16px 32px, #309ecf 32px 48px, #ffffff 48px 64px)",
+          "repeating-linear-gradient(115deg, #8b1c25 0 16px, #ffffff 16px 32px, #2396ce 32px 48px, #ffffff 48px 64px)",
       },
       maxWidth: {
         prose: "68ch",

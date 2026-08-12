@@ -98,12 +98,12 @@ function HeroSlideshow() {
       </div>
 
       <div className="absolute -left-2 bottom-14 z-20 flex h-[8.75rem] w-[8.75rem] flex-col items-center justify-center gap-0.5 rounded-full bg-wine text-white shadow-badge sm:-left-4">
-        <span className="font-display text-[0.6875rem] font-semibold tracking-[0.22em]">IT&rsquo;S A</span>
-        <span className="font-display text-[1.875rem] font-extrabold leading-none tracking-wide">
-          PAW
+        <span className="font-display text-[0.6875rem] font-semibold tracking-[0.22em]">EST.</span>
+        <span className="font-display text-[2.125rem] font-extrabold leading-none">
+          2015
         </span>
-        <span className="font-display text-[0.6875rem] font-semibold tracking-[0.22em] text-wine-soft">
-          DAY
+        <span className="font-display text-[0.625rem] font-semibold tracking-[0.14em] text-wine-soft">
+          SPRINGFIELD
         </span>
       </div>
     </div>
@@ -123,11 +123,11 @@ export function Hero() {
         };
 
   return (
-    <section id="top" className="relative overflow-hidden bg-cream">
+    <section id="top" className="relative overflow-hidden bg-white">
       <PawMark className="paw-deco -left-8 top-10 h-[170px] w-[170px] -rotate-[26deg] text-brand-500" />
       <PawMark className="paw-deco left-[7.5rem] top-40 h-24 w-24 rotate-[8deg] text-wine opacity-[0.11]" />
 
-      <div className="container-page relative z-[5] grid items-center gap-12 pt-12 pb-16 lg:grid-cols-[1.02fr_0.98fr] lg:gap-[4.5rem] lg:pb-20">
+      <div className="container-page relative z-[5] grid items-center gap-12 pt-0 pb-16 lg:grid-cols-[1.02fr_0.98fr] lg:gap-[4.5rem] lg:pb-20">
         <div>
           <motion.h1
             {...rise(0.05)}
@@ -143,11 +143,8 @@ export function Hero() {
           </motion.p>
 
           <motion.div {...rise(0.28)} className="mt-9 flex flex-wrap gap-3.5">
-            <ButtonLink href="/services" size="lg">
+            <ButtonLink href="/services" variant="secondary" size="lg">
               Explore Our Services
-            </ButtonLink>
-            <ButtonLink href="/contact-us" variant="secondary" size="lg">
-              Book an Appointment
             </ButtonLink>
           </motion.div>
         </div>
@@ -157,7 +154,7 @@ export function Hero() {
         </motion.div>
       </div>
 
-      <div className="h-3 w-full bg-pole-stripes" aria-hidden="true" />
+      <div className="h-1.5 w-full bg-pole-stripes" aria-hidden="true" />
     </section>
   );
 }

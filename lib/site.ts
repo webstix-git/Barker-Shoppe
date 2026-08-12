@@ -54,10 +54,13 @@ export type NavLink = {
   children?: readonly NavChild[];
 };
 
+export const aboutNav = [
+  { label: "Our Story", href: "/our-story" },
+] as const;
+
 export const navLinks: readonly NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about-us" },
-  { label: "Our Story", href: "/our-story" },
+  { label: "About Us", href: "/about-us", children: aboutNav },
   { label: "Services", href: "/services", children: serviceNav },
   { label: "Pricing & Policy", href: "/pricing-policy", children: pricingNav },
   { label: "Contact Us", href: "/contact-us" },
@@ -254,7 +257,7 @@ export const servicePages: ServicePageContent[] = [
     scheduleTitle: "Drop Off, Play, Pick Up",
     schedule: [
       {
-        mark: "7:30",
+        mark: "7:30 am",
         title: "Drop-Off Opens",
         body: "Come in after 7:30 am. Hand over food or medication and let us know anything we should keep in mind.",
       },
@@ -269,9 +272,9 @@ export const servicePages: ServicePageContent[] = [
         body: "Shorter shifts? Half days cover the mornings or the errands that do not need a full day.",
       },
       {
-        mark: "6:00",
+        mark: "6:00 pm",
         title: "Pickup by Six",
-        body: "Pick up by 6 pm and ask how the day went. We are happy to fill you in.",
+        body: "Pick up by 6:00 pm and ask how the day went. We are happy to fill you in.",
         accent: true,
       },
     ],
@@ -455,10 +458,10 @@ export const servicePages: ServicePageContent[] = [
     ratesTitle: "By Appointment - call for pricing",
     ratesLinkLabel: "Back to rates",
     rates: [
-      { label: "Full Groom", note: "Call for a quote", price: "Quote" },
-      { label: "Bath and Tidy", note: "Call for a quote", price: "Quote" },
-      { label: "Nail Trim", note: "On its own or added to a stay", price: "Quote" },
-      { label: "With Boarding", note: "Book into a stay, pick up clean", price: "Quote" },
+      { label: "Full Groom", note: "Bath, cut, ears, and nails", price: "-" },
+      { label: "Bath and Tidy", note: "Wash, dry, and clean-up", price: "-" },
+      { label: "Nail Trim", note: "On its own or added to a stay", price: "-" },
+      { label: "With Boarding", note: "Book into a stay, pick up clean", price: "-" },
     ],
     ctaTitle: "Want a Grooming Quote?",
     ctaBody: "Call us with your dog’s breed, size, and the service you want.",

@@ -157,7 +157,7 @@ export default function RatesPage() {
 
       <section
         id="boarding"
-        className="relative scroll-mt-28 overflow-hidden bg-cream px-5 py-[6.25rem] sm:px-8"
+        className="relative scroll-mt-28 overflow-hidden bg-[#B4D1DA] px-5 py-[6.25rem] sm:px-8"
       >
         <PawMark className="paw-deco bottom-[3.75rem] left-[3.125rem] h-[8.125rem] w-[8.125rem] rotate-[18deg] text-wine" />
 

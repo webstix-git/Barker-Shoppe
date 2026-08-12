@@ -113,7 +113,7 @@ export default function AboutPage() {
         </Stagger>
       </Section>
 
-      <CTASection />
+      <CTASection tone="white" />
     </>
   );
 }

@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 export function HomeContact() {
   return (
     <>
-      <section id="contact" className="relative overflow-hidden bg-cream px-5 py-[6.25rem] sm:px-8">
+      <section id="contact" className="relative overflow-hidden bg-[#B4D1DA] px-5 py-[6.25rem] sm:px-8">
         <PawMark className="paw-deco right-[3.75rem] top-[4.375rem] h-[8.125rem] w-[8.125rem] -rotate-[14deg] text-brand-500" />
 
         <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
@@ -48,8 +48,8 @@ export function HomeContact() {
                 >
                   Call {site.phoneDisplay}
                 </ButtonLink>
-                <ButtonLink href={`mailto:${site.email}`} variant="outline" size="lg">
-                  Email us
+                <ButtonLink href="/contact-us" variant="outline" size="lg">
+                  Contact Us
                 </ButtonLink>
               </div>
 

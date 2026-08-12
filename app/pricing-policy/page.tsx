@@ -103,7 +103,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="bg-cream px-5 py-24 sm:px-8 sm:py-[6.25rem]">
+      <section className="bg-white px-5 py-24 sm:px-8 sm:py-[6.25rem]">
         <div className="mx-auto max-w-[1180px]">
           <Reveal className="mx-auto max-w-2xl text-center">
             <div className="flex items-center justify-center gap-3.5">
@@ -113,7 +113,7 @@ export default function PricingPage() {
             <h2 className="mt-5 text-display-lg">Quick Answers</h2>
           </Reveal>
           <div className="mx-auto mt-14 max-w-3xl">
-            <Accordion items={policyFaqs} />
+            <Accordion items={policyFaqs} defaultOpen="all" />
           </div>
         </div>
       </section>

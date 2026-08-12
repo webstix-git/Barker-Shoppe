@@ -12,7 +12,7 @@ type BreadcrumbsProps = {
 /** Sits directly under the interior page banner. */
 export function Breadcrumbs({ items, current }: BreadcrumbsProps) {
   return (
-    <nav aria-label="Breadcrumb" className="border-b border-cream-line bg-white">
+    <nav aria-label="Breadcrumb" className="border-b border-cream-line bg-[#FEFBF5]">
       <div className="container-page py-3.5">
         <ol className="flex flex-wrap items-center gap-1.5 text-sm text-soft">
           {items.map((crumb) => (

@@ -179,6 +179,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const isHome = pathname === "/";
+  const useWarmHeader = scrolled || !isHome;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -209,7 +211,8 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-cream-line bg-cream/95 backdrop-blur-md transition-shadow duration-300",
+        "sticky top-0 z-50 backdrop-blur-md transition-[background-color,box-shadow] duration-300",
+        useWarmHeader ? "bg-[#FEFBF5]/95" : "bg-white/95",
         scrolled && "shadow-header",
       )}
     >
@@ -217,10 +220,10 @@ export function Header() {
         <div
           className={cn(
             "flex flex-wrap items-center justify-between gap-4 py-3 transition-[min-height] duration-300 ease-gentle",
-            scrolled ? "min-h-[6.75rem]" : "min-h-[9.5rem]",
+            scrolled ? "min-h-[6.5rem]" : "min-h-[10.5rem]",
           )}
         >
-          <Logo size="lg" compact={scrolled} />
+          <Logo compact={scrolled} />
 
           <nav aria-label="Main" className="hidden items-center gap-x-5 gap-y-2 lg:flex xl:gap-x-6">
             {navLinks.map((link) => (
@@ -228,14 +231,21 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
             <a
               href={site.phoneHref}
-              className="hidden items-center gap-2.5 font-display text-[1.125rem] font-bold text-wine transition-colors duration-300 hover:text-brand-500 sm:inline-flex"
+              className="hidden items-center gap-2.5 font-display text-[1.125rem] font-bold text-ink transition-colors duration-300 hover:text-wine sm:inline-flex"
             >
-              <Icon name="phone-call" className="text-[1.05rem] text-brand-500" />
+              <Icon name="phone-call" className="text-[1.05rem]" />
               {site.phoneDisplay}
             </a>
+
+            <Link
+              href="/contact-us"
+              className="hidden rounded-pill bg-wine px-5 py-2.5 font-display text-[0.9375rem] font-bold text-white shadow-cta transition-[background-color,box-shadow] duration-300 hover:bg-brand-500 hover:shadow-[0_12px_28px_rgba(35,150,206,0.32)] sm:inline-flex"
+            >
+              Book an Appointment
+            </Link>
 
             <button
               type="button"
@@ -278,7 +288,10 @@ export function Header() {
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
-            className="border-t border-cream-line bg-cream lg:hidden"
+            className={cn(
+              "border-t border-cream-line lg:hidden",
+              useWarmHeader ? "bg-[#FEFBF5]" : "bg-white",
+            )}
           >
             <nav aria-label="Mobile" className="container-page py-4">
               <ul className="flex flex-col">
@@ -295,13 +308,21 @@ export function Header() {
                 ))}
               </ul>
 
-              <a
-                href={site.phoneHref}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-pill bg-wine px-6 py-3.5 font-display text-base font-bold text-white"
-              >
-                <Icon name="phone-call" />
-                Call {site.phoneDisplay}
-              </a>
+              <div className="mt-5 flex flex-col gap-3">
+                <a
+                  href={site.phoneHref}
+                  className="flex w-full items-center justify-center gap-2 rounded-pill border-2 border-ink px-6 py-3.5 font-display text-base font-bold text-ink"
+                >
+                  <Icon name="phone-call" />
+                  Call {site.phoneDisplay}
+                </a>
+                <Link
+                  href="/contact-us"
+                  className="flex w-full items-center justify-center rounded-pill bg-wine px-6 py-3.5 font-display text-base font-bold text-white"
+                >
+                  Book an Appointment
+                </Link>
+              </div>
             </nav>
           </motion.div>
         )}

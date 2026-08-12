@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export default function NotFound() {
   return (
-    <section className="bg-cream pb-26 pt-20">
+    <section className="bg-[#B4D1DA] pb-26 pt-20">
       <div className="container-page">
         <div className="mx-auto max-w-xl text-center">
           <p className="font-display text-[5rem] font-extrabold leading-none text-brand-200">404</p>

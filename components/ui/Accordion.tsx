@@ -7,15 +7,34 @@ import { cn } from "@/lib/cn";
 
 type Item = { question: string; answer: string };
 
-export function Accordion({ items }: { items: Item[] }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+type AccordionProps = {
+  items: Item[];
+  /** Open the first item (default), every item, or none. */
+  defaultOpen?: "first" | "all" | "none";
+};
+
+export function Accordion({ items, defaultOpen = "first" }: AccordionProps) {
+  const [openIndexes, setOpenIndexes] = useState<Set<number>>(() => {
+    if (defaultOpen === "all") return new Set(items.map((_, index) => index));
+    if (defaultOpen === "first" && items.length > 0) return new Set([0]);
+    return new Set();
+  });
   const baseId = useId();
   const reduceMotion = useReducedMotion();
+
+  const toggle = (index: number) => {
+    setOpenIndexes((current) => {
+      const next = new Set(current);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  };
 
   return (
     <div className="divide-y divide-cream-dark overflow-hidden rounded-[1.25rem] border border-cream-dark bg-white shadow-[0_10px_30px_rgba(13,44,56,0.06)]">
       {items.map((item, index) => {
-        const isOpen = openIndex === index;
+        const isOpen = openIndexes.has(index);
         const buttonId = `${baseId}-trigger-${index}`;
         const panelId = `${baseId}-panel-${index}`;
 
@@ -27,7 +46,7 @@ export function Accordion({ items }: { items: Item[] }) {
                 type="button"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
-                onClick={() => setOpenIndex(isOpen ? null : index)}
+                onClick={() => toggle(index)}
                 className="flex w-full items-start justify-between gap-6 px-6 py-5 text-left font-display text-[1.0625rem] font-bold text-ink transition-colors duration-300 hover:bg-cream sm:px-8"
               >
                 <span>{item.question}</span>

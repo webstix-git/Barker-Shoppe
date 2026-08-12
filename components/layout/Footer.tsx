@@ -15,12 +15,12 @@ export function Footer() {
 
   return (
     <footer className="bg-navy text-brand-100">
-      <div className="h-3 w-full bg-pole-stripes" aria-hidden="true" />
+      <div className="h-1.5 w-full bg-pole-stripes" aria-hidden="true" />
 
       <div className="container-page py-16 sm:py-18">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:gap-10">
           <div>
-            <Logo size="footer" />
+            <Logo />
             <p className="mt-5 max-w-xs text-body-sm leading-relaxed text-brand-100">
               A locally owned dog daycare, boarding, and grooming shoppe on East Bennett. Dogs only.
             </p>
@@ -100,7 +100,7 @@ export function Footer() {
             </h2>
             <ul className="mt-4 space-y-4 text-body-sm">
               <li className="flex items-start gap-3">
-                <Icon name="marker" className="mt-0.5 shrink-0 text-brand-300" />
+                <Icon name="marker" className="mt-1.5 shrink-0 text-brand-300" />
                 <a
                   href={site.mapsDirections}
                   target="_blank"
@@ -113,13 +113,13 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Icon name="phone-call" className="mt-0.5 shrink-0 text-brand-300" />
+                <Icon name="phone-call" className="mt-1.5 shrink-0 text-brand-300" />
                 <a href={site.phoneHref} className="font-semibold text-white hover:text-brand-200">
                   {site.phoneDisplay}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Icon name="envelope" className="mt-0.5 shrink-0 text-brand-300" />
+                <Icon name="envelope" className="mt-1.5 shrink-0 text-brand-300" />
                 <a
                   href={`mailto:${site.email}`}
                   className="break-all transition-colors duration-300 hover:text-white"

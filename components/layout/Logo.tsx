@@ -5,21 +5,12 @@ import { site } from "@/lib/site";
 
 type LogoProps = {
   className?: string;
-  /** Full header lockup (130px). Footer lockup is 120px. */
-  size?: "sm" | "lg" | "footer";
-  /** Compact lockup while the sticky header is scrolled (90px). */
+  /** Compact lockup while the sticky header is scrolled (80px). */
   compact?: boolean;
 };
 
-export function Logo({ className, size = "sm", compact = false }: LogoProps) {
-  const height = compact
-    ? "h-[90px] w-auto"
-    : size === "lg"
-      ? "h-[130px] w-auto"
-      : size === "footer"
-        ? "h-[120px] w-auto"
-        : "h-12 w-auto sm:h-14";
-
+/** Brand lockup — 150px by default; 80px when the sticky header is scrolled. */
+export function Logo({ className, compact = false }: LogoProps) {
   return (
     <Link
       href="/"
@@ -29,12 +20,12 @@ export function Logo({ className, size = "sm", compact = false }: LogoProps) {
       <Image
         src="/images/barker-shoppe-logo.png"
         alt={site.name}
-        width={225}
-        height={179}
-        priority={size !== "footer"}
+        width={571}
+        height={437}
+        priority
         className={cn(
-          height,
-          "object-contain transition-[height] duration-300 ease-gentle",
+          "w-auto object-contain transition-[height] duration-300 ease-gentle",
+          compact ? "h-[80px]" : "h-[150px]",
         )}
       />
     </Link>

@@ -25,7 +25,7 @@ export default function GalleryPage() {
       />
       <Breadcrumbs items={[{ label: "Home", href: "/" }]} current="Gallery" />
 
-      <Section tone="cream">
+      <Section tone="white">
         <GalleryGrid images={galleryImages} />
 
         <Reveal delay={0.1} className="mt-14">

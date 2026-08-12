@@ -31,7 +31,7 @@ export default function NewClientsPage() {
         current="New Client Requirements"
       />
 
-      <Section tone="cream">
+      <Section tone="white">
         <SectionHeading
           overline="Same Day Checklist"
           title="Three Steps and You Are Rolling"

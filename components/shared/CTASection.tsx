@@ -10,6 +10,8 @@ type CTASectionProps = {
   cardTitle?: string;
   cardBody?: string;
   note?: string;
+  /** Section background. Default blue band; use white on pages like About Us. */
+  tone?: "blue" | "white";
 };
 
 /**
@@ -23,10 +25,17 @@ export function CTASection({
   cardTitle = "Ready to book your dog’s first day?",
   cardBody = "Call and we will walk you through openings, rates, and what to bring.",
   note = "Bring current Bordetella, DHPP, and Rabies records to your first visit.",
+  tone = "blue",
 }: CTASectionProps) {
   return (
     <>
-      <section className="relative overflow-hidden bg-cream px-5 py-[6.25rem] sm:px-8">
+      <section
+        className={
+          tone === "white"
+            ? "relative overflow-hidden bg-white px-5 py-[6.25rem] sm:px-8"
+            : "relative overflow-hidden bg-[#B4D1DA] px-5 py-[6.25rem] sm:px-8"
+        }
+      >
         <PawMark className="paw-deco right-[3.75rem] top-[4.375rem] h-[8.125rem] w-[8.125rem] -rotate-[14deg] text-brand-500" />
 
         <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
@@ -60,8 +69,8 @@ export function CTASection({
                 >
                   Call {site.phoneDisplay}
                 </ButtonLink>
-                <ButtonLink href={`mailto:${site.email}`} variant="outline" size="lg">
-                  Email us
+                <ButtonLink href="/contact-us" variant="outline" size="lg">
+                  Contact Us
                 </ButtonLink>
               </div>
 

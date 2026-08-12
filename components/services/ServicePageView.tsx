@@ -40,12 +40,12 @@ export function ServicePageView({ service, page }: Props) {
 
       <section className="bg-white px-5 py-24 sm:px-8 sm:py-[6.25rem]">
         <div className="mx-auto max-w-[1180px]">
-          <Reveal className="max-w-[38.75rem]">
+          <Reveal className="max-w-none">
             <div className="flex items-center gap-3.5">
               <span className="rule-accent" aria-hidden="true" />
               <p className="eyebrow text-wine">{page.scheduleOverline}</p>
             </div>
-            <h2 className="mt-5 text-display-lg">{page.scheduleTitle}</h2>
+            <h2 className="mt-5 whitespace-nowrap text-display-lg">{page.scheduleTitle}</h2>
           </Reveal>
 
           <div className="relative mt-14">
@@ -58,7 +58,8 @@ export function ServicePageView({ service, page }: Props) {
                 <Reveal key={step.title} delay={index * 0.06}>
                   <div
                     className={cn(
-                      "grid h-[3.375rem] w-[3.375rem] place-items-center rounded-full font-display text-[0.9375rem] font-extrabold text-white shadow-[0_0_0_8px_#ffffff]",
+                      "grid h-[3.375rem] w-[3.375rem] place-items-center rounded-full px-1 text-center font-display font-extrabold leading-[1.05] text-white shadow-[0_0_0_8px_#ffffff]",
+                      step.mark.length > 4 ? "text-[0.625rem]" : "text-[0.9375rem]",
                       step.accent ? "bg-wine" : "bg-brand-500",
                     )}
                   >
@@ -75,7 +76,7 @@ export function ServicePageView({ service, page }: Props) {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-cream px-5 py-24 sm:px-8 sm:py-[6.25rem]">
+      <section className="relative overflow-hidden bg-[#B4D1DA] px-5 py-24 sm:px-8 sm:py-[6.25rem]">
         <PawMark className="paw-deco bottom-[3.75rem] left-[3.125rem] h-[8.125rem] w-[8.125rem] rotate-[18deg] text-wine" />
         <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
           <Reveal from="left">
@@ -83,7 +84,7 @@ export function ServicePageView({ service, page }: Props) {
               <span className="rule-accent bg-brand-500" aria-hidden="true" />
               <p className="eyebrow text-brand-600">{page.fitOverline}</p>
             </div>
-            <h2 className="mt-5 text-display-lg">{page.fitTitle}</h2>
+            <h2 className="mt-5 whitespace-nowrap text-display-lg">{page.fitTitle}</h2>
             <p className="mt-[1.125rem] mb-8 max-w-[32.5rem] text-body text-muted">{page.fitLead}</p>
             <ul className="flex flex-col">
               {page.fitPoints.map((point, index) => (
@@ -104,7 +105,7 @@ export function ServicePageView({ service, page }: Props) {
           <Reveal from="right" delay={0.08} className="relative flex justify-center">
             <div
               aria-hidden="true"
-              className="absolute -top-[1.125rem] right-6 h-[9.375rem] w-[9.375rem] rounded-full bg-brand-200"
+              className="absolute -top-[1.125rem] right-6 h-[9.375rem] w-[9.375rem] rounded-full bg-[#FEFBF5]"
             />
             <div className="relative aspect-square w-full max-w-[27.5rem] overflow-hidden rounded-full shadow-photo-lg transition-shadow duration-[420ms] hover:shadow-photo-hover">
               <Image
@@ -119,15 +120,15 @@ export function ServicePageView({ service, page }: Props) {
         </div>
       </section>
 
-      <section className="bg-cream px-5 py-24 sm:px-8 sm:py-[6.25rem]">
+      <section className="bg-white px-5 py-24 sm:px-8 sm:py-[6.25rem]">
         <div className="mx-auto max-w-[1180px]">
           <div className="mb-11 flex flex-wrap items-end justify-between gap-6">
-            <Reveal className="max-w-[35rem]">
+            <Reveal className="max-w-none">
               <div className="flex items-center gap-3.5">
                 <span className="rule-accent" aria-hidden="true" />
                 <p className="eyebrow text-wine">{page.ratesOverline}</p>
               </div>
-              <h2 className="mt-5 text-display-lg">{page.ratesTitle}</h2>
+              <h2 className="mt-5 whitespace-nowrap text-display-lg">{page.ratesTitle}</h2>
             </Reveal>
             <Reveal delay={0.08}>
               <ButtonLink href="/pricing-policy/rates-packages" variant="secondary">
