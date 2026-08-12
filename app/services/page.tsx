@@ -55,11 +55,11 @@ export default function ServicesPage() {
                 <div
                   aria-hidden="true"
                   className={cn(
-                    "absolute bottom-0 left-0 h-[88%] w-[90%] rounded-arch",
-                    service.backdrop === "wine" ? "bg-wine-soft" : "bg-brand-200",
+                    "absolute bottom-0 left-0 h-[92%] w-[92%] rounded-[1.5rem] sm:rounded-[1.75rem]",
+                    service.backdrop === "wine" ? "bg-wine-soft" : "bg-[#A2C9D9]",
                   )}
                 />
-                <div className="arch-frame relative h-[22rem] sm:h-[29.375rem]">
+                <div className="relative h-[22rem] overflow-hidden rounded-[1.5rem] shadow-photo sm:h-[29.375rem] sm:rounded-[1.75rem]">
                   <Image
                     src={service.image.src}
                     alt={service.image.alt}
