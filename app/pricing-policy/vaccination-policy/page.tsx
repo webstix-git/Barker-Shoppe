@@ -34,8 +34,11 @@ export default function VaccinationPage() {
       <Section tone="white">
         <SectionHeading
           overline="Required"
-          title="Three Vaccines, No Exceptions"
+          title={
+            <span className="whitespace-nowrap">Three Vaccines, No Exceptions</span>
+          }
           lead="Required for every dog and every service - daycare, boarding, and grooming."
+          className="max-w-none"
         />
 
         <ul className="mx-auto mt-12 max-w-3xl space-y-4">

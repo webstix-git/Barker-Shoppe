@@ -18,7 +18,7 @@ export function PageHero({ title, lead, children }: PageHeroProps) {
 
       <div className="container-page relative z-[5]">
         <Reveal className="max-w-3xl">
-          <h1 className="text-display-lg">{title}</h1>
+          <h1 className="text-display-xl">{title}</h1>
           <p className="mt-5 max-w-2xl text-body text-muted">{lead}</p>
           {children && <div className="mt-8">{children}</div>}
         </Reveal>

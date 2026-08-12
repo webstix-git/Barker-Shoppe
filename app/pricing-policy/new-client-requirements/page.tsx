@@ -34,7 +34,10 @@ export default function NewClientsPage() {
       <Section tone="white">
         <SectionHeading
           overline="Same Day Checklist"
-          title="Three Steps and You Are Rolling"
+          title={
+            <span className="whitespace-nowrap">Three Steps and You Are Rolling</span>
+          }
+          className="max-w-none"
         />
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {firstVisitSteps.map((step, index) => (

@@ -41,7 +41,7 @@ export default function ServicesPage() {
             id={service.slug}
             className={cn(
               "scroll-mt-28 px-5 py-24 sm:px-8 sm:py-[6.5rem]",
-              reverse ? "bg-[#B4D1DA]" : "bg-white",
+              reverse ? "bg-[#FEFBF5]" : "bg-white",
             )}
           >
             <div className="mx-auto grid max-w-[1180px] items-center gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
@@ -167,7 +167,6 @@ export default function ServicesPage() {
       </section>
 
       <CTASection
-        tone="white"
         title="Not Sure Which Service You Need?"
         body="Call us about daycare, boarding, or grooming and we will help you get set up."
         note="Bring current Bordetella, DHPP, and Rabies records to your first visit."

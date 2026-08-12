@@ -131,7 +131,7 @@ export function Hero() {
         <div>
           <motion.h1
             {...rise(0.05)}
-            className="text-[clamp(1.85rem,4.1vw,3.15rem)] leading-[1.08] tracking-[-0.035em] [text-wrap:unset]"
+            className="text-[56px] leading-[1.08] tracking-[-0.035em] [text-wrap:unset]"
           >
             <span className="block whitespace-nowrap">Great Care for Dogs.</span>
             <span className="block whitespace-nowrap text-brand-500">Peace of Mind for You.</span>
