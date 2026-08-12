@@ -8,7 +8,7 @@ import { services } from "@/lib/site";
 
 export function ServicesOverview() {
   return (
-    <section id="services" className="relative overflow-hidden bg-[#B4D1DA] py-24 sm:py-26">
+    <section id="services" className="relative overflow-hidden bg-white py-24 sm:py-26">
       <PawMark className="paw-deco right-[4.5rem] top-14 h-[150px] w-[150px] -rotate-[18deg] text-brand-500" />
       <PawMark className="paw-deco right-[13rem] top-[13.75rem] h-22 w-22 rotate-12 text-wine opacity-[0.13]" />
 
@@ -29,9 +29,9 @@ export function ServicesOverview() {
                 <div className="group relative pb-[1.125rem] pl-[1.125rem] transition-transform duration-[420ms] ease-gentle hover:-translate-y-2.5">
                   <div
                     aria-hidden="true"
-                    className="absolute bottom-0 left-0 h-[88%] w-[90%] rounded-arch bg-[#A2C9D9]"
+                    className="absolute bottom-0 left-0 h-[92%] w-[92%] rounded-[1.5rem] bg-[#A2C9D9] sm:rounded-[1.75rem]"
                   />
-                  <div className="arch-frame relative h-[22rem] transition-shadow duration-[420ms] group-hover:shadow-photo-hover sm:h-[25rem]">
+                  <div className="relative h-[22rem] overflow-hidden rounded-[1.5rem] shadow-photo transition-shadow duration-[420ms] group-hover:shadow-photo-hover sm:h-[25rem] sm:rounded-[1.75rem]">
                     <Image
                       src={service.image.src}
                       alt={service.image.alt}

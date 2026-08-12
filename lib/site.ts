@@ -370,8 +370,8 @@ export const servicePages: ServicePageContent[] = [
       "Households with more than one dog who prefer to stay together",
     ],
     fitImage: {
-      src: "/images/golden-retriever-pool.webp",
-      alt: "Golden retriever enjoying the outdoor yard",
+      src: "/images/dog-stack-yard.jpg",
+      alt: "Dogs of every size together in the yard at The Barker Shoppe",
     },
     ratesOverline: "Boarding Rates",
     ratesTitle: "Per Night, at a Glance",

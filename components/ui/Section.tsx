@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-type Tone = "white" | "cream" | "navy";
+type Tone = "white" | "cream" | "warm" | "navy";
 
 const tones: Record<Tone, string> = {
   white: "bg-white text-ink",
   cream: "bg-[#B4D1DA] text-ink",
+  warm: "bg-[#FEFBF5] text-ink",
   navy: "bg-navy text-white",
 };
 

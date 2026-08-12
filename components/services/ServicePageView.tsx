@@ -76,7 +76,7 @@ export function ServicePageView({ service, page }: Props) {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#B4D1DA] px-5 py-24 sm:px-8 sm:py-[6.25rem]">
+      <section className="relative overflow-hidden bg-[#FEFBF5] px-5 py-24 sm:px-8 sm:py-[6.25rem]">
         <PawMark className="paw-deco bottom-[3.75rem] left-[3.125rem] h-[8.125rem] w-[8.125rem] rotate-[18deg] text-wine" />
         <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
           <Reveal from="left">
@@ -84,7 +84,7 @@ export function ServicePageView({ service, page }: Props) {
               <span className="rule-accent bg-brand-500" aria-hidden="true" />
               <p className="eyebrow text-brand-600">{page.fitOverline}</p>
             </div>
-            <h2 className="mt-5 whitespace-nowrap text-display-lg">{page.fitTitle}</h2>
+            <h2 className="mt-5 text-display-lg">{page.fitTitle}</h2>
             <p className="mt-[1.125rem] mb-8 max-w-[32.5rem] text-body text-muted">{page.fitLead}</p>
             <ul className="flex flex-col">
               {page.fitPoints.map((point, index) => (
@@ -105,7 +105,7 @@ export function ServicePageView({ service, page }: Props) {
           <Reveal from="right" delay={0.08} className="relative flex justify-center">
             <div
               aria-hidden="true"
-              className="absolute -top-[1.125rem] right-6 h-[9.375rem] w-[9.375rem] rounded-full bg-[#FEFBF5]"
+              className="absolute -top-[1.125rem] right-6 h-[9.375rem] w-[9.375rem] rounded-full bg-[#A2C9D9]"
             />
             <div className="relative aspect-square w-full max-w-[27.5rem] overflow-hidden rounded-full shadow-photo-lg transition-shadow duration-[420ms] hover:shadow-photo-hover">
               <Image
@@ -113,7 +113,7 @@ export function ServicePageView({ service, page }: Props) {
                 alt={page.fitImage.alt}
                 fill
                 sizes="440px"
-                className="object-cover object-[center_45%] transition-transform duration-700 ease-gentle hover:scale-[1.06]"
+                className="object-cover object-center transition-transform duration-700 ease-gentle hover:scale-[1.06]"
               />
             </div>
           </Reveal>

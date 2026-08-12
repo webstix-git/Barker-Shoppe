@@ -117,16 +117,16 @@ export function InteriorHero({
             <Reveal
               from="right"
               delay={0.08}
-              className="relative pb-6 pr-6 transition-transform duration-[420ms] ease-gentle hover:-translate-y-2.5"
+              className="relative pb-5 pr-5 transition-transform duration-[420ms] ease-gentle hover:-translate-y-2.5 sm:pb-6 sm:pr-6"
             >
               <div
                 aria-hidden="true"
                 className={cn(
-                  "absolute bottom-0 right-0 h-[88%] w-[90%] rounded-arch-lg",
-                  imageBackdrop === "wine" ? "bg-wine-soft" : "bg-brand-200",
+                  "absolute bottom-0 right-0 h-[92%] w-[92%] rounded-[1.75rem] sm:rounded-[2rem]",
+                  imageBackdrop === "wine" ? "bg-wine-soft" : "bg-[#A2C9D9]",
                 )}
               />
-              <div className="arch-frame-lg relative h-[22rem] sm:h-[28rem] lg:h-[33.75rem]">
+              <div className="relative h-[22rem] overflow-hidden rounded-[1.75rem] shadow-photo-lg sm:h-[28rem] sm:rounded-[2rem] lg:h-[33.75rem]">
                 <Image
                   src={image.src}
                   alt={image.alt}

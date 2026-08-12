@@ -26,7 +26,7 @@ export default function ContactPage() {
       />
       <Breadcrumbs items={[{ label: "Home", href: "/" }]} current="Contact Us" />
 
-      <Section tone="cream">
+      <Section tone="warm">
         <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
           <Reveal from="left">
             <ContactForm />

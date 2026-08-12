@@ -6,7 +6,7 @@ import { yardHighlights } from "@/lib/site";
 /** Matches the attached homepage: copy left, circular pool photo right. */
 export function YardSection() {
   return (
-    <section id="play" className="relative overflow-hidden bg-cream px-5 py-24 sm:px-8 sm:py-26">
+    <section id="play" className="relative overflow-hidden bg-white px-5 py-24 sm:px-8 sm:py-26">
       <PawMark className="paw-deco bottom-[3.75rem] left-[3.75rem] h-[7.5rem] w-[7.5rem] rotate-[24deg] text-wine opacity-15" />
 
       <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 lg:grid-cols-2 lg:gap-20">

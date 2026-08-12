@@ -7,7 +7,7 @@ import { differentiators } from "@/lib/site";
 /** Photo left, bordered paw-row list right - image height matches content. */
 export function WhyChooseUs() {
   return (
-    <section className="bg-white px-5 py-[4.5rem] sm:px-8 sm:py-[6.875rem]">
+    <section className="bg-[#FEFBF5] px-5 py-[4.5rem] sm:px-8 sm:py-[6.875rem]">
       <div className="mx-auto grid max-w-[1180px] items-stretch gap-14 lg:grid-cols-2 lg:gap-[5.625rem]">
         <Reveal from="left" className="relative h-full min-h-[22rem] w-full">
           <div className="relative h-full min-h-[22rem] overflow-hidden rounded-[1.625rem] shadow-photo-lg lg:absolute lg:inset-0 lg:min-h-0">

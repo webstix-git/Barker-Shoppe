@@ -43,15 +43,15 @@ function HeroSlideshow() {
 
   return (
     <div
-      className="relative pb-6 pr-6"
+      className="relative pb-5 pr-5 sm:pb-6 sm:pr-6"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <div
         aria-hidden="true"
-        className="absolute bottom-0 right-0 h-[88%] w-[90%] rounded-arch-lg bg-brand-200"
+        className="absolute bottom-0 right-0 h-[92%] w-[92%] rounded-[1.75rem] bg-[#A2C9D9] sm:rounded-[2rem]"
       />
-      <div className="arch-frame-lg relative h-[22rem] overflow-hidden sm:h-[28rem] lg:h-[35rem]">
+      <div className="relative h-[590px] w-full overflow-hidden rounded-[1.75rem] shadow-photo-lg sm:rounded-[2rem]">
         {heroSlides.map((slide, i) => (
           <motion.div
             key={slide.src}
@@ -97,7 +97,7 @@ function HeroSlideshow() {
         ))}
       </div>
 
-      <div className="absolute -left-2 bottom-14 z-20 flex h-[8.75rem] w-[8.75rem] flex-col items-center justify-center gap-0.5 rounded-full bg-wine text-white shadow-badge sm:-left-4">
+      <div className="absolute -left-2 bottom-10 z-20 flex h-[8.75rem] w-[8.75rem] flex-col items-center justify-center gap-0.5 rounded-full bg-wine text-white shadow-badge ring-[3px] ring-white sm:-left-4 sm:bottom-12">
         <span className="font-display text-[0.6875rem] font-semibold tracking-[0.22em]">EST.</span>
         <span className="font-display text-[2.125rem] font-extrabold leading-none">
           2015
@@ -123,7 +123,7 @@ export function Hero() {
         };
 
   return (
-    <section id="top" className="relative overflow-hidden bg-white">
+    <section id="top" className="relative overflow-hidden bg-[#FEFBF5]">
       <PawMark className="paw-deco -left-8 top-10 h-[170px] w-[170px] -rotate-[26deg] text-brand-500" />
       <PawMark className="paw-deco left-[7.5rem] top-40 h-24 w-24 rotate-[8deg] text-wine opacity-[0.11]" />
 

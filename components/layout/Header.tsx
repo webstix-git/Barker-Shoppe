@@ -179,8 +179,6 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const isHome = pathname === "/";
-  const useWarmHeader = scrolled || !isHome;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -211,8 +209,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 backdrop-blur-md transition-[background-color,box-shadow] duration-300",
-        useWarmHeader ? "bg-[#FEFBF5]/95" : "bg-white/95",
+        "sticky top-0 z-50 bg-[#FEFBF5]/95 backdrop-blur-md transition-[box-shadow] duration-300",
         scrolled && "shadow-header",
       )}
     >
@@ -288,10 +285,7 @@ export function Header() {
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
-            className={cn(
-              "border-t border-cream-line lg:hidden",
-              useWarmHeader ? "bg-[#FEFBF5]" : "bg-white",
-            )}
+            className="border-t border-cream-line bg-[#FEFBF5] lg:hidden"
           >
             <nav aria-label="Mobile" className="container-page py-4">
               <ul className="flex flex-col">
