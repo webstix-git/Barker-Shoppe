@@ -24,7 +24,7 @@ export function ServicePageView({ service, page }: Props) {
           { label: "Services", href: "/services" },
         ]}
         current={service.name}
-        image={service.image}
+        image={page.bannerImage ?? service.image}
         imageBackdrop={service.backdrop}
         actions={
           <>

@@ -231,6 +231,8 @@ export type ServicePageContent = {
   fitLead: string;
   fitPoints: string[];
   fitImage: { src: string; alt: string };
+  /** Optional detail-page banner image; falls back to the shared service card image. */
+  bannerImage?: { src: string; alt: string };
   ratesOverline: string;
   ratesTitle: string;
   ratesLinkLabel: string;
@@ -370,8 +372,12 @@ export const servicePages: ServicePageContent[] = [
       "Households with more than one dog who prefer to stay together",
     ],
     fitImage: {
-      src: "/images/dog-stack-yard.jpg",
-      alt: "Dogs of every size together in the yard at The Barker Shoppe",
+      src: "/images/boarding-fit-shepherd.png",
+      alt: "German Shepherd resting indoors during a boarding stay",
+    },
+    bannerImage: {
+      src: "/images/boarding-banner-dogs.png",
+      alt: "Small tan dog looking up from the sidewalk",
     },
     ratesOverline: "Boarding Rates",
     ratesTitle: "Per Night, at a Glance",
