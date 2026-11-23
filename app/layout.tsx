@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, Karla } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
@@ -12,19 +12,19 @@ import { localBusinessSchema, websiteSchema } from "@/lib/schema";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-/** Archivo for display - bold, friendly, no serif. Karla for body at 18px. */
-const display = Archivo({
-  subsets: ["latin"],
+/** Self-hosted: next/font/google fails on Vercel for Archivo (font-stretch CSS). */
+const display = localFont({
+  src: "./fonts/archivo.woff2",
   display: "swap",
   variable: "--font-display",
-  weight: ["600", "700", "800"],
+  weight: "600 800",
 });
 
-const body = Karla({
-  subsets: ["latin"],
+const body = localFont({
+  src: "./fonts/karla.woff2",
   display: "swap",
   variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
+  weight: "400 700",
 });
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "";
