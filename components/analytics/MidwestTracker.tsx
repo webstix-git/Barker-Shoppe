@@ -16,7 +16,7 @@ export function MidwestTracker({ siteId, endpoint }: MidwestTrackerProps) {
     <Script
       id="midwest-track"
       src="https://midwestfamilyportal.com/track.js"
-      strategy="afterInteractive"
+      strategy="lazyOnload"
       data-site={siteId}
       data-endpoint={endpoint}
     />

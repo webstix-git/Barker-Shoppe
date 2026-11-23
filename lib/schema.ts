@@ -80,7 +80,7 @@ export function localBusinessSchema() {
       "Locally owned dog daycare, overnight boarding, and professional grooming on East Bennett Street in Springfield, Missouri. Dogs only.",
     image: [
       absoluteUrl("/images/barker-shoppe-logo.png"),
-      absoluteUrl("/images/hero-slide-1.jpg"),
+      absoluteUrl("/images/hero-slide-1.webp"),
     ],
     logo: absoluteUrl("/images/barker-shoppe-logo.png"),
     telephone: site.phoneE164,

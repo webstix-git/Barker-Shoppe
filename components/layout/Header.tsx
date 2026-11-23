@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -207,43 +206,34 @@ function MobileItem({
           />
         </button>
       </div>
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.ul
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: [0.22, 0.61, 0.36, 1] }}
-            className="overflow-hidden bg-white/70"
-          >
-            {items.map((child) => {
-              const childIsActive = pathname === child.href;
-              return (
-                <li key={child.href}>
-                  <Link
-                    href={child.href}
-                    aria-current={childIsActive ? "page" : undefined}
-                    onClick={onNavigate}
-                    className={cn(
-                      "block py-2.5 pl-4 pr-2 font-display text-[0.95rem] font-semibold",
-                      childIsActive ? "text-wine" : "text-soft hover:text-wine",
-                    )}
-                  >
-                    {child.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </motion.ul>
-        )}
-      </AnimatePresence>
+      {expanded ? (
+        <ul className="overflow-hidden bg-white/70">
+          {items.map((child) => {
+            const childIsActive = pathname === child.href;
+            return (
+              <li key={child.href}>
+                <Link
+                  href={child.href}
+                  aria-current={childIsActive ? "page" : undefined}
+                  onClick={onNavigate}
+                  className={cn(
+                    "block py-2.5 pl-4 pr-2 font-display text-[0.95rem] font-semibold",
+                    childIsActive ? "text-wine" : "text-soft hover:text-wine",
+                  )}
+                >
+                  {child.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
     </li>
   );
 }
 
 export function Header() {
   const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -348,58 +338,49 @@ export function Header() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            id="mobile-menu"
-            initial={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
-            className="border-t border-cream-line bg-[#FEFBF5] lg:hidden"
-          >
-            <nav aria-label="Mobile" className="container-page py-4">
-              <ul className="flex flex-col">
-                {navLinks.map((link) => (
-                  <MobileItem
-                    key={link.href}
-                    link={link}
-                    pathname={pathname}
-                    openHref={openSubmenu}
-                    onToggle={(href) =>
-                      setOpenSubmenu((current) => (current === href ? null : href))
-                    }
-                    onNavigate={() => {
-                      setMenuOpen(false);
-                      setOpenSubmenu(null);
-                    }}
-                  />
-                ))}
-              </ul>
-
-              <div className="mt-5 flex flex-col gap-3">
-                <a
-                  href={site.phoneHref}
-                  className="flex w-full items-center justify-center gap-2 rounded-pill border-2 border-ink px-6 py-3.5 font-display text-base font-bold text-ink"
-                >
-                  <Icon name="phone-call" />
-                  Call {site.phoneDisplay}
-                </a>
-                <Link
-                  href="/contact-us"
-                  onClick={() => {
+      {menuOpen ? (
+        <div id="mobile-menu" className="border-t border-cream-line bg-[#FEFBF5] lg:hidden">
+          <nav aria-label="Mobile" className="container-page py-4">
+            <ul className="flex flex-col">
+              {navLinks.map((link) => (
+                <MobileItem
+                  key={link.href}
+                  link={link}
+                  pathname={pathname}
+                  openHref={openSubmenu}
+                  onToggle={(href) =>
+                    setOpenSubmenu((current) => (current === href ? null : href))
+                  }
+                  onNavigate={() => {
                     setMenuOpen(false);
                     setOpenSubmenu(null);
                   }}
-                  className="flex w-full items-center justify-center rounded-pill bg-wine px-6 py-3.5 font-display text-base font-bold text-white"
-                >
-                  Book an Appointment
-                </Link>
-              </div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                />
+              ))}
+            </ul>
+
+            <div className="mt-5 flex flex-col gap-3">
+              <a
+                href={site.phoneHref}
+                className="flex w-full items-center justify-center gap-2 rounded-pill border-2 border-ink px-6 py-3.5 font-display text-base font-bold text-ink"
+              >
+                <Icon name="phone-call" />
+                Call {site.phoneDisplay}
+              </a>
+              <Link
+                href="/contact-us"
+                onClick={() => {
+                  setMenuOpen(false);
+                  setOpenSubmenu(null);
+                }}
+                className="flex w-full items-center justify-center rounded-pill bg-wine px-6 py-3.5 font-display text-base font-bold text-white"
+              >
+                Book an Appointment
+              </Link>
+            </div>
+          </nav>
+        </div>
+      ) : null}
     </header>
   );
 }

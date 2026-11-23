@@ -1,54 +1,66 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { PawMark } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
 
-const EASE = [0.22, 0.61, 0.36, 1] as const;
-
 const heroSlides = [
   {
-    src: "/images/hero-slide-1.jpg",
+    src: "/images/hero-slide-1.webp",
     alt: "Happy husky looking up from the turf yard",
   },
   {
-    src: "/images/hero-slide-2.jpg",
+    src: "/images/hero-slide-2.webp",
     alt: "Two dogs looking up from the turf",
   },
   {
-    src: "/images/hero-slide-3.jpg",
+    src: "/images/hero-slide-3.webp",
     alt: "Golden retriever resting on the turf",
   },
   {
-    src: "/images/hero-slide-4.jpg",
+    src: "/images/hero-slide-4.webp",
     alt: "Three dogs playing tug together in the yard",
   },
 ] as const;
 
 function HeroSlideshow() {
-  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [activated, setActivated] = useState(false);
+  const [allowExtras, setAllowExtras] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
-    setActivated(true);
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduceMotion(mq.matches);
+    const onChange = () => setReduceMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  // Defer non-LCP slides until after first paint / idle.
+  useEffect(() => {
+    const start = () => setAllowExtras(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(start, { timeout: 1800 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = window.setTimeout(start, 900);
+    return () => window.clearTimeout(t);
   }, []);
 
   useEffect(() => {
-    if (reduceMotion || paused) return;
+    if (reduceMotion || paused || !allowExtras) return;
     const id = window.setInterval(() => {
       setIndex((current) => (current + 1) % heroSlides.length);
     }, 4200);
     return () => window.clearInterval(id);
-  }, [reduceMotion, paused]);
+  }, [reduceMotion, paused, allowExtras]);
 
   const nextIndex = (index + 1) % heroSlides.length;
   const visibleIndexes = new Set(
-    reduceMotion ? [0] : activated ? [index, nextIndex, 0] : [0],
+    reduceMotion || !allowExtras ? [0] : [index, nextIndex, 0],
   );
 
   return (
@@ -65,14 +77,11 @@ function HeroSlideshow() {
         {heroSlides.map((slide, i) => {
           if (!visibleIndexes.has(i)) return null;
           return (
-            <motion.div
+            <div
               key={slide.src}
-              initial={false}
-              animate={{ opacity: i === index ? 1 : 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.55, ease: EASE }}
               className={cn(
-                "absolute inset-0",
-                i === index ? "z-[1]" : "z-0 pointer-events-none",
+                "absolute inset-0 transition-opacity duration-500 ease-gentle",
+                i === index ? "z-[1] opacity-100" : "z-0 pointer-events-none opacity-0",
               )}
               aria-hidden={i !== index}
             >
@@ -82,11 +91,12 @@ function HeroSlideshow() {
                 fill
                 priority={i === 0}
                 fetchPriority={i === 0 ? "high" : "auto"}
-                quality={65}
-                sizes="(min-width: 1024px) 40vw, 88vw"
+                loading={i === 0 ? "eager" : "lazy"}
+                quality={70}
+                sizes="(min-width: 1024px) 40vw, (min-width: 640px) 70vw, 88vw"
                 className="object-cover object-[center_28%]"
               />
-            </motion.div>
+            </div>
           );
         })}
       </div>
@@ -103,7 +113,10 @@ function HeroSlideshow() {
             role="tab"
             aria-selected={i === index}
             aria-label={`Show photo ${i + 1}`}
-            onClick={() => setIndex(i)}
+            onClick={() => {
+              setAllowExtras(true);
+              setIndex(i);
+            }}
             className={cn(
               "h-2.5 rounded-full transition-all duration-300",
               i === index ? "w-7 bg-wine" : "w-2.5 bg-white/80 hover:bg-white",
@@ -119,7 +132,7 @@ function HeroSlideshow() {
         <span className="font-display text-[1.625rem] font-extrabold leading-none sm:text-[2.125rem]">
           2015
         </span>
-        <span className="font-display text-[0.5rem] font-semibold tracking-[0.14em] text-wine-soft sm:text-[0.625rem]">
+        <span className="font-display text-[0.5rem] font-semibold tracking-[0.14em] text-[#f7e6e7] sm:text-[0.625rem]">
           SPRINGFIELD
         </span>
       </div>
@@ -137,7 +150,7 @@ export function Hero() {
         <div>
           <h1 className="animate-hero-rise text-[clamp(2.125rem,8.2vw,3.5rem)] leading-[1.08] tracking-[-0.035em]">
             <span className="block sm:whitespace-nowrap">Great Care for Dogs.</span>
-            <span className="block text-brand-500 sm:whitespace-nowrap">Peace of Mind for You.</span>
+            <span className="block text-brand-700 sm:whitespace-nowrap">Peace of Mind for You.</span>
           </h1>
 
           <p
@@ -158,7 +171,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="animate-hero-rise" style={{ animationDelay: "160ms" }}>
+        {/* No entrance delay on LCP image */}
+        <div>
           <HeroSlideshow />
         </div>
       </div>

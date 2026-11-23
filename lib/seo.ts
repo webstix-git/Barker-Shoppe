@@ -17,12 +17,12 @@ export function absoluteUrl(path = "/"): string {
   return `${site.url}${normalized}`;
 }
 
-/** Default social / featured image (homepage hero screenshot). */
+/** Default social / featured image (dogs on the turf yard). */
 export const defaultOgImage = {
   url: absoluteUrl("/images/og-featured.jpg"),
   width: 1200,
   height: 630,
-  alt: "The Barker Shoppe — Great Care for Dogs. Peace of Mind for You. Springfield, MO",
+  alt: "Two happy dogs on the turf yard at The Barker Shoppe in Springfield, MO",
 } as const;
 
 /** Shared page metadata: absolute canonical, Open Graph, Twitter. */

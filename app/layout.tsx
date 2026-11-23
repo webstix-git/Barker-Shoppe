@@ -18,6 +18,8 @@ import "./globals.css";
 const display = localFont({
   src: "./fonts/archivo.woff2",
   display: "swap",
+  preload: true,
+  adjustFontFallback: "Arial",
   variable: "--font-display",
   weight: "600 800",
 });
@@ -25,6 +27,8 @@ const display = localFont({
 const body = localFont({
   src: "./fonts/karla.woff2",
   display: "swap",
+  preload: true,
+  adjustFontFallback: "Arial",
   variable: "--font-body",
   weight: "400 700",
 });

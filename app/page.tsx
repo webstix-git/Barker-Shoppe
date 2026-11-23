@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
-import { FirstVisit } from "@/components/home/FirstVisit";
-import { GalleryTeaser } from "@/components/home/GalleryTeaser";
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/home/Hero";
-import { HomeContact } from "@/components/home/HomeContact";
-import { ServicesOverview } from "@/components/home/ServicesOverview";
-import { WhyChooseUs } from "@/components/home/WhyChooseUs";
-import { YardSection } from "@/components/home/YardSection";
 import { buildPageMetadata } from "@/lib/seo";
+
+/** Below-fold sections: separate chunks so framer-motion Reveal isn’t in the initial JS. */
+const ServicesOverview = dynamic(() =>
+  import("@/components/home/ServicesOverview").then((m) => m.ServicesOverview),
+);
+const WhyChooseUs = dynamic(() =>
+  import("@/components/home/WhyChooseUs").then((m) => m.WhyChooseUs),
+);
+const YardSection = dynamic(() =>
+  import("@/components/home/YardSection").then((m) => m.YardSection),
+);
+const FirstVisit = dynamic(() =>
+  import("@/components/home/FirstVisit").then((m) => m.FirstVisit),
+);
+const GalleryTeaser = dynamic(() =>
+  import("@/components/home/GalleryTeaser").then((m) => m.GalleryTeaser),
+);
+const HomeContact = dynamic(() =>
+  import("@/components/home/HomeContact").then((m) => m.HomeContact),
+);
 
 export const metadata: Metadata = {
   ...buildPageMetadata({
