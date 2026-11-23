@@ -5,12 +5,12 @@ import { Reveal } from "@/components/ui/Reveal";
 type PageHeroProps = {
   overline?: string;
   title: string;
-  lead: string;
+  lead: ReactNode;
   children?: ReactNode;
 };
 
 /** Interior page banner - breadcrumbs render separately below this. */
-export function PageHero({ title, lead, children }: PageHeroProps) {
+export function PageHero({ overline, title, lead, children }: PageHeroProps) {
   return (
     <section className="relative overflow-hidden border-b border-cream-line bg-[#FEFBF5] pb-14 pt-[30px] sm:pb-16">
       <PawMark className="paw-deco right-[-1.5rem] top-10 h-[9.5rem] w-[9.5rem] rotate-[18deg] text-brand-500 sm:right-8 sm:top-12 sm:h-[11rem] sm:w-[11rem]" />
@@ -18,6 +18,12 @@ export function PageHero({ title, lead, children }: PageHeroProps) {
 
       <div className="container-page relative z-[5]">
         <Reveal className="max-w-3xl">
+          {overline ? (
+            <div className="mb-4 flex items-center gap-3.5">
+              <span className="rule-accent" aria-hidden="true" />
+              <p className="eyebrow text-wine">{overline}</p>
+            </div>
+          ) : null}
           <h1 className="text-display-xl">{title}</h1>
           <p className="mt-5 max-w-2xl text-body text-muted">{lead}</p>
           {children && <div className="mt-8">{children}</div>}

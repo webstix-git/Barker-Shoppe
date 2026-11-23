@@ -8,13 +8,14 @@ import { InteriorHero } from "@/components/shared/InteriorHero";
 import { CTASection } from "@/components/shared/CTASection";
 import { policyFaqs, pricingNav } from "@/lib/site";
 import { cn } from "@/lib/cn";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Pricing & Policy",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Pricing & Policy — Rates, Packages & Vaccines",
   description:
-    "Rates, packages, new client requirements, and vaccination policy at The Barker Shoppe in Springfield, MO.",
-  alternates: { canonical: "/pricing-policy" },
-};
+    "Daycare rates, boarding prices, new client requirements, and vaccination policy at The Barker Shoppe in Springfield, MO.",
+  path: "/pricing-policy",
+});
 
 const hubCards = [
   {
@@ -54,6 +55,17 @@ export default function PricingPage() {
 
       <section className="bg-white px-5 py-24 sm:px-8 sm:py-[6.25rem]">
         <div className="mx-auto max-w-[1180px]">
+          <Reveal className="mb-14 max-w-2xl">
+            <div className="flex items-center gap-3.5">
+              <span className="rule-accent" aria-hidden="true" />
+              <p className="eyebrow text-wine">Browse</p>
+            </div>
+            <h2 className="mt-5 text-display-lg">Rates, Requirements &amp; Policies</h2>
+            <p className="mt-4 text-body text-muted">
+              Pick a topic below for posted prices, first-visit steps, or vaccine rules.
+            </p>
+          </Reveal>
+
           <Stagger className="grid gap-10 lg:gap-12">
             {hubCards.map((card, index) => {
               const reverse = index % 2 === 1;
@@ -91,7 +103,7 @@ export default function PricingPage() {
                       <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-50 text-xl text-brand-600">
                         <Icon name={card.icon} />
                       </span>
-                      <h2 className="mt-5 text-display-md group-hover:text-wine">{card.label}</h2>
+                      <h3 className="mt-5 text-display-md group-hover:text-wine">{card.label}</h3>
                       <p className="mt-4 max-w-xl text-body text-muted">{card.body}</p>
                       <span className="text-link mt-7 inline-flex">Read more</span>
                     </div>
@@ -113,11 +125,10 @@ export default function PricingPage() {
             <h2 className="mt-5 text-display-lg">Quick Answers</h2>
           </Reveal>
           <div className="mx-auto mt-14 max-w-3xl">
-            <Accordion items={policyFaqs} defaultOpen="all" />
+            <Accordion items={policyFaqs} />
           </div>
         </div>
       </section>
-
       <CTASection
         title="Have a Question We Didn’t Answer?"
         body="Call the shoppe and we will walk you through openings, rates, and what to bring."

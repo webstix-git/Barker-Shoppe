@@ -14,7 +14,7 @@ export function Logo({ className, compact = false }: LogoProps) {
   return (
     <Link
       href="/"
-      className={cn("inline-flex shrink-0 items-center", className)}
+      className={cn("relative z-10 inline-flex shrink-0 items-center", className)}
       aria-label={`${site.name} - home`}
     >
       <Image
@@ -23,9 +23,11 @@ export function Logo({ className, compact = false }: LogoProps) {
         width={571}
         height={437}
         priority
+        sizes="(max-width: 640px) 96px, (max-width: 1024px) 120px, 150px"
+        quality={75}
         className={cn(
           "w-auto object-contain transition-[height] duration-300 ease-gentle",
-          compact ? "h-[80px]" : "h-[150px]",
+          compact ? "h-[64px] sm:h-[80px]" : "h-[96px] sm:h-[120px] lg:h-[150px]",
         )}
       />
     </Link>

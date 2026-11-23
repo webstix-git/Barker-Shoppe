@@ -1,10 +1,21 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import {
+  useCallback,
+  useId,
+  useState,
+  type FormEvent,
+  type InputHTMLAttributes,
+} from "react";
+import { Turnstile } from "@/components/contact/Turnstile";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
+import { isValidInternationalPhone, toE164 } from "@/lib/phone";
 import { services, site } from "@/lib/site";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
 
 type Fields = {
   name: string;
@@ -15,8 +26,6 @@ type Fields = {
   message: string;
 };
 
-type Errors = Partial<Record<keyof Fields, string>>;
-
 const emptyForm: Fields = {
   name: "",
   email: "",
@@ -26,100 +35,227 @@ const emptyForm: Fields = {
   message: "",
 };
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const PHONE_PATTERN = /^[\d\s().+-]{10,20}$/;
+const FIELD_LABELS = {
+  name: "Your name",
+  email: "Email",
+  phone: "Phone",
+  service: "Service",
+} as const;
 
-function validate(values: Fields): Errors {
-  const errors: Errors = {};
-  if (!values.name.trim()) errors.name = "Please tell us your name.";
+type RequiredField = keyof typeof FIELD_LABELS;
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+type ValidationResult = {
+  message: string | null;
+  invalidFields: RequiredField[];
+};
+
+function validate(values: Fields): ValidationResult {
+  const missing: RequiredField[] = [];
+  const invalidFormat: RequiredField[] = [];
+
+  if (!values.name.trim()) missing.push("name");
+
   if (!values.email.trim()) {
-    errors.email = "We need an email address to reply to.";
+    missing.push("email");
   } else if (!EMAIL_PATTERN.test(values.email.trim())) {
-    errors.email = "That email address doesn't look quite right.";
+    invalidFormat.push("email");
   }
+
   if (!values.phone.trim()) {
-    errors.phone = "Please enter a phone number we can reach you on.";
-  } else if (!PHONE_PATTERN.test(values.phone.trim())) {
-    errors.phone = "Please enter a phone number we can reach you on.";
+    missing.push("phone");
+  } else if (!isValidInternationalPhone(values.phone)) {
+    invalidFormat.push("phone");
   }
-  if (!values.service) errors.service = "Choose the service you're interested in.";
-  return errors;
+
+  if (!values.service) missing.push("service");
+
+  const invalidFields = [...new Set([...missing, ...invalidFormat])];
+
+  if (invalidFields.length === 0) {
+    return { message: null, invalidFields: [] };
+  }
+
+  const parts: string[] = [];
+
+  if (missing.length > 0) {
+    const names = missing.map((key) => FIELD_LABELS[key]);
+    parts.push(
+      missing.length === 1
+        ? `Please fill in ${names[0]}.`
+        : `Please fill in: ${formatList(names)}.`,
+    );
+  }
+
+  if (invalidFormat.length > 0) {
+    const names = invalidFormat.map((key) => FIELD_LABELS[key]);
+    parts.push(
+      invalidFormat.length === 1
+        ? `${names[0]} doesn’t look quite right.`
+        : `${formatList(names)} don’t look quite right.`,
+    );
+  }
+
+  return { message: parts.join(" "), invalidFields };
+}
+
+function formatList(items: string[]): string {
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
 }
 
 const fieldClasses =
-  "w-full rounded-[0.875rem] border bg-white px-4 py-3 text-body-sm text-ink placeholder:text-muted/70 transition-colors duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200";
+  "w-full min-w-0 max-w-full rounded-[0.875rem] border bg-white px-3 py-3 text-body-sm text-ink placeholder:text-muted/70 transition-colors duration-300 focus:outline-none focus:ring-2 sm:px-4";
+
+const fieldOkClasses = "border-cream-dark focus:border-brand-500 focus:ring-brand-200";
+const fieldErrorClasses = "border-wine ring-1 ring-wine/30 focus:border-wine focus:ring-wine/25";
 
 export function ContactForm() {
+  const router = useRouter();
   const [values, setValues] = useState<Fields>(emptyForm);
-  const [errors, setErrors] = useState<Errors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [invalidFields, setInvalidFields] = useState<RequiredField[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
+  const summaryId = useId();
+
+  const onTurnstileToken = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setSummary(null);
+  }, []);
+  const onTurnstileExpire = useCallback(() => setTurnstileToken(""), []);
+  const onTurnstileError = useCallback(() => {
+    setTurnstileToken("");
+    setSummary("Captcha failed to load. Please refresh and try again.");
+  }, []);
 
   const update = (field: keyof Fields, value: string) => {
     setValues((current) => ({ ...current, [field]: value }));
-    setErrors((current) => (current[field] ? { ...current, [field]: undefined } : current));
+    if (summary) setSummary(null);
+    if (invalidFields.includes(field as RequiredField)) {
+      setInvalidFields((current) => current.filter((key) => key !== field));
+    }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const nextErrors = validate(values);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
-      const firstInvalid = Object.keys(nextErrors)[0];
-      document.getElementById(firstInvalid)?.focus();
+    const result = validate(values);
+    setSummary(result.message);
+    setInvalidFields(result.invalidFields);
+    if (result.message) {
+      requestAnimationFrame(() => {
+        document.getElementById("form-validation-summary")?.focus();
+      });
       return;
     }
 
-    // TODO: wire to Formspree / Resend / a Next.js route handler before launch.
-    console.info("Contact form submission (not yet sent anywhere):", values);
-    setSubmitted(true);
-    setValues(emptyForm);
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setSummary("Please complete the captcha.");
+      requestAnimationFrame(() => {
+        document.getElementById("form-validation-summary")?.focus();
+      });
+      return;
+    }
+
+    const payload = {
+      name: values.name.trim(),
+      email: values.email.trim(),
+      phone: toE164(values.phone) ?? values.phone.trim(),
+      petName: values.petName.trim(),
+      service: values.service,
+      message: values.message.trim(),
+      turnstileToken,
+    };
+
+    setSubmitting(true);
+    try {
+      // Posts through our API so the upstream form URL stays server-only.
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      let data: { success?: boolean; redirect_url?: string; error?: string } | null = null;
+      try {
+        data = (await response.json()) as {
+          success?: boolean;
+          redirect_url?: string;
+          error?: string;
+        };
+      } catch {
+        data = null;
+      }
+
+      if (!response.ok || data?.success === false) {
+        throw new Error(data?.error || "We couldn’t send your message. Please try again or call us.");
+      }
+
+      router.push(data?.redirect_url || "/thank-you");
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "We couldn’t send your message. Please try again or call us.";
+      setSummary(message);
+      setTurnstileToken("");
+      setTurnstileKey((key) => key + 1);
+      requestAnimationFrame(() => {
+        document.getElementById("form-validation-summary")?.focus();
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  if (submitted) {
-    return (
-      <div role="status" className="rounded-[1.5rem] bg-white p-8 shadow-[0_10px_30px_rgba(13,44,56,0.06)] ring-1 ring-cream-dark sm:p-10">
-        <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-50 text-xl text-brand-600">
-          <Icon name="check" />
-        </span>
-        <h2 className="mt-4 text-display-sm">Thanks - We&rsquo;ve Got Your Note</h2>
-        <p className="mt-3 text-body-sm text-muted">
-          Someone from the shoppe will get back to you shortly. If it&rsquo;s time-sensitive, calling{" "}
-          <a href={site.phoneHref} className="font-semibold text-wine underline underline-offset-4">
-            {site.phoneDisplay}
-          </a>{" "}
-          is always faster.
-        </p>
-        <p className="mt-4 text-sm text-soft">
-          Developer note: front-end confirmation only. Wire the form endpoint before launch.
-        </p>
-        <Button type="button" variant="secondary" className="mt-6" onClick={() => setSubmitted(false)}>
-          Send another message
-        </Button>
-      </div>
-    );
-  }
+  const isInvalid = (field: RequiredField) => invalidFields.includes(field);
 
   return (
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="rounded-[1.5rem] bg-white p-7 shadow-[0_10px_30px_rgba(13,44,56,0.06)] ring-1 ring-cream-dark sm:p-9"
+      className="w-full min-w-0 rounded-[1.5rem] bg-white p-5 shadow-[0_10px_30px_rgba(13,44,56,0.06)] ring-1 ring-cream-dark sm:p-7 lg:p-9"
+      aria-describedby={summary ? summaryId : undefined}
     >
       <h2 className="text-display-sm">Send Us a Message</h2>
       <p className="mt-3 text-body-sm text-muted">
         Tell us a little about your dog and what you need. We usually reply the same business day.
       </p>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2">
+      {summary ? (
+        <p
+          id="form-validation-summary"
+          tabIndex={-1}
+          role="alert"
+          aria-live="polite"
+          className="mt-6 flex items-start gap-2 rounded-[0.875rem] bg-wine/8 px-4 py-3 text-sm font-semibold text-wine outline-none ring-1 ring-wine/20"
+        >
+          <Icon name="interrogation" className="mt-0.5 shrink-0 text-sm" />
+          <span id={summaryId}>{summary}</span>
+        </p>
+      ) : null}
+
+      <p className={cn("text-sm text-muted", summary ? "mt-5" : "mt-8")}>
+        Fields marked with an asterisk (<span className="font-semibold text-wine">*</span>) are
+        required.
+      </p>
+
+      <div className="mt-4 grid gap-5 sm:grid-cols-2">
         <Field
           id="name"
           label="Your name"
           required
           value={values.name}
-          error={errors.name}
           onChange={(value) => update("name", value)}
           autoComplete="name"
           placeholder="Jordan Blake"
+          invalid={isInvalid("name")}
         />
         <Field
           id="email"
@@ -127,10 +263,10 @@ export function ContactForm() {
           type="email"
           required
           value={values.email}
-          error={errors.email}
           onChange={(value) => update("email", value)}
           autoComplete="email"
           placeholder="you@example.com"
+          invalid={isInvalid("email")}
         />
         <Field
           id="phone"
@@ -138,16 +274,17 @@ export function ContactForm() {
           type="tel"
           required
           value={values.phone}
-          error={errors.phone}
           onChange={(value) => update("phone", value)}
           autoComplete="tel"
-          placeholder="(417) 555-0134"
+          inputMode="tel"
+          placeholder="+1 (417) 501-1053"
+          hint="US or international format with country code is fine."
+          invalid={isInvalid("phone")}
         />
         <Field
           id="petName"
           label="Dog's name"
           value={values.petName}
-          error={errors.petName}
           onChange={(value) => update("petName", value)}
           placeholder="Biscuit"
         />
@@ -161,9 +298,12 @@ export function ContactForm() {
             name="service"
             value={values.service}
             onChange={(event) => update("service", event.target.value)}
-            aria-invalid={Boolean(errors.service)}
-            aria-describedby={errors.service ? "service-error" : undefined}
-            className={cn(fieldClasses, "mt-2", errors.service ? "border-wine" : "border-cream-dark")}
+            aria-invalid={isInvalid("service")}
+            className={cn(
+              fieldClasses,
+              "mt-2",
+              isInvalid("service") ? fieldErrorClasses : fieldOkClasses,
+            )}
           >
             <option value="">Choose one…</option>
             {services.map((service) => (
@@ -174,10 +314,12 @@ export function ContactForm() {
             <option value="Multiple services">More than one service</option>
             <option value="Something else">Something else</option>
           </select>
-          {errors.service && <FieldError id="service-error">{errors.service}</FieldError>}
         </div>
 
         <div className="sm:col-span-2">
+          <label htmlFor="message" className="block font-display text-sm font-bold text-ink">
+            Message
+          </label>
           <textarea
             id="message"
             name="message"
@@ -185,15 +327,31 @@ export function ContactForm() {
             value={values.message}
             onChange={(event) => update("message", event.target.value)}
             placeholder="How can we help?"
-            className={cn(fieldClasses, "resize-y border-cream-dark")}
+            className={cn(fieldClasses, fieldOkClasses, "mt-2 resize-y")}
           />
         </div>
+
+        {TURNSTILE_SITE_KEY ? (
+          <div className="sm:col-span-2">
+            <Turnstile
+              key={turnstileKey}
+              siteKey={TURNSTILE_SITE_KEY}
+              onToken={onTurnstileToken}
+              onExpire={onTurnstileExpire}
+              onError={onTurnstileError}
+            />
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" size="lg">
+        <Button
+          type="submit"
+          size="lg"
+          disabled={submitting || (Boolean(TURNSTILE_SITE_KEY) && !turnstileToken)}
+        >
           <Icon name="envelope" />
-          Send message
+          {submitting ? "Sending…" : "Send message"}
         </Button>
         <p className="text-sm text-muted">
           Prefer the phone?{" "}
@@ -214,12 +372,13 @@ type FieldProps = {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  error?: string;
   type?: string;
   required?: boolean;
   placeholder?: string;
   autoComplete?: string;
+  inputMode?: InputHTMLAttributes<HTMLInputElement>["inputMode"];
   hint?: string;
+  invalid?: boolean;
 };
 
 function Field({
@@ -227,15 +386,15 @@ function Field({
   label,
   value,
   onChange,
-  error,
   type = "text",
   required = false,
   placeholder,
   autoComplete,
+  inputMode,
   hint,
+  invalid = false,
 }: FieldProps) {
   const hintId = hint ? `${id}-hint` : undefined;
-  const errorId = error ? `${id}-error` : undefined;
 
   return (
     <div>
@@ -250,25 +409,16 @@ function Field({
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        aria-invalid={Boolean(error)}
-        aria-describedby={[errorId, hintId].filter(Boolean).join(" ") || undefined}
-        className={cn(fieldClasses, "mt-2", error ? "border-wine" : "border-cream-dark")}
+        inputMode={inputMode}
+        aria-invalid={invalid}
+        aria-describedby={hintId}
+        className={cn(fieldClasses, "mt-2", invalid ? fieldErrorClasses : fieldOkClasses)}
       />
-      {hint && !error && (
+      {hint ? (
         <p id={hintId} className="mt-1.5 text-sm text-muted">
           {hint}
         </p>
-      )}
-      {error && <FieldError id={errorId!}>{error}</FieldError>}
+      ) : null}
     </div>
-  );
-}
-
-function FieldError({ id, children }: { id: string; children: string }) {
-  return (
-    <p id={id} role="alert" className="mt-1.5 flex items-center gap-1.5 text-sm font-semibold text-wine">
-      <Icon name="interrogation" className="text-sm" />
-      {children}
-    </p>
   );
 }

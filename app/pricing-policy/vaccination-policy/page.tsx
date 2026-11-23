@@ -6,14 +6,15 @@ import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { buildPageMetadata } from "@/lib/seo";
 import { vaccinationPolicy } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Vaccination Policy",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Vaccination Policy — Bordetella, DHPP & Rabies",
   description:
-    "Bordetella, DHPP, and Rabies requirements for daycare, boarding, and grooming at The Barker Shoppe.",
-  alternates: { canonical: "/pricing-policy/vaccination-policy" },
-};
+    "Current Bordetella, DHPP, and Rabies are required for every dog for daycare, boarding, and grooming at The Barker Shoppe in Springfield, MO.",
+  path: "/pricing-policy/vaccination-policy",
+});
 
 export default function VaccinationPage() {
   return (
@@ -35,7 +36,7 @@ export default function VaccinationPage() {
         <SectionHeading
           overline="Required"
           title={
-            <span className="whitespace-nowrap">Three Vaccines, No Exceptions</span>
+            <span className="sm:whitespace-nowrap">Three Vaccines, No Exceptions</span>
           }
           lead="Required for every dog and every service - daycare, boarding, and grooming."
           className="max-w-none"
@@ -60,7 +61,6 @@ export default function VaccinationPage() {
           ))}
         </ul>
       </Section>
-
       <CTASection />
     </>
   );

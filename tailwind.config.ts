@@ -80,6 +80,16 @@ const config: Config = {
       transitionTimingFunction: {
         gentle: "cubic-bezier(0.22, 0.61, 0.36, 1)",
       },
+      keyframes: {
+        // Keep opacity at 1 the whole time so hero copy never renders blank.
+        "hero-rise": {
+          from: { opacity: "1", transform: "translateY(16px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "hero-rise": "hero-rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards",
+      },
     },
   },
   plugins: [],

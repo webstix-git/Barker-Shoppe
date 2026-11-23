@@ -7,14 +7,15 @@ import { ButtonLink } from "@/components/ui/Button";
 import { PawMark } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
+import { buildPageMetadata } from "@/lib/seo";
 import { daycareRates, site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Rates & Packages",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Daycare & Boarding Rates in Springfield, MO",
   description:
-    "Daycare rates, multi-day packages, and overnight boarding prices at The Barker Shoppe in Springfield, MO.",
-  alternates: { canonical: "/pricing-policy/rates-packages" },
-};
+    "Daycare from $15 half-day / $30 full-day, packages from $19/day, boarding from $35/night. The Barker Shoppe, Springfield, MO.",
+  path: "/pricing-policy/rates-packages",
+});
 
 const daycareRows = [
   {
@@ -274,7 +275,6 @@ export default function RatesPage() {
           </Reveal>
         </div>
       </section>
-
       <CTASection
         title="Questions About a Rate?"
         body="Call and we will tell you exactly what your dog’s week or stay would cost, packages included."

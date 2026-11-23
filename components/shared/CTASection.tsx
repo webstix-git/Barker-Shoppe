@@ -45,7 +45,15 @@ export function CTASection({
               <p className="eyebrow text-wine">{overline}</p>
             </div>
             <h2 className="mt-5 text-display-lg">{title}</h2>
-            <p className="mt-[1.125rem] max-w-[31.25rem] text-body text-muted">{body}</p>
+            <p
+              className={
+                tone === "white"
+                  ? "mt-[1.125rem] max-w-[31.25rem] text-body text-muted"
+                  : "mt-[1.125rem] max-w-[31.25rem] text-body text-ink/80"
+              }
+            >
+              {body}
+            </p>
           </Reveal>
 
           <Reveal delay={0.1} className="relative self-center">
@@ -74,7 +82,7 @@ export function CTASection({
                 </ButtonLink>
               </div>
 
-              <p className="mt-7 border-t border-white/14 pt-[1.375rem] text-[0.9375rem] leading-[1.6] text-[#8fb0bc]">
+              <p className="mt-7 border-t border-white/14 pt-[1.375rem] text-[0.9375rem] leading-[1.6] text-brand-100">
                 {note}
               </p>
             </div>

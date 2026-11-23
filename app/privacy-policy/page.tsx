@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { PageHero } from "@/components/shared/PageHero";
 import { Section } from "@/components/ui/Section";
+import { buildPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Privacy Policy",
-  description: `How ${site.name} collects, uses, and protects information shared through our website and services.`,
-  alternates: { canonical: "/privacy-policy" },
-};
+  description: `How ${site.name} collects, uses, and protects information shared through our website, phone, email, and services in Springfield, MO.`,
+  path: "/privacy-policy",
+});
 
-const sections = [
+const linkClass = "font-semibold text-wine underline underline-offset-4 hover:text-brand-500";
+
+const sections: { title: string; body: ReactNode }[] = [
   {
     title: "Who We Are",
     body: `${site.name} (“we,” “us,” or “our”) is a locally owned dog daycare, boarding, and grooming business located at ${site.address.full}. This policy explains how we handle information when you visit our website, call us, email us, or use our services.`,
@@ -33,13 +37,26 @@ const sections = [
   },
   {
     title: "Your Choices",
-    body: `You may ask us to update or correct your contact details, or request that we limit how we use information that is not required for care or legal records. Contact us at ${site.email} or ${site.phoneDisplay}.`,
+    body: (
+      <>
+        You may ask us to update or correct your contact details, or request that we limit how we use
+        information that is not required for care or legal records. Contact us at{" "}
+        <a href={`mailto:${site.email}`} className={linkClass}>
+          {site.email}
+        </a>{" "}
+        or{" "}
+        <a href={site.phoneHref} className={linkClass}>
+          {site.phoneDisplay}
+        </a>
+        .
+      </>
+    ),
   },
   {
     title: "Updates",
     body: "We may update this Privacy Policy from time to time. The revised version will be posted on this page with an updated effective date.",
   },
-] as const;
+];
 
 export default function PrivacyPolicyPage() {
   return (

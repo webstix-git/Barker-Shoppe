@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
 import { PawMark } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
@@ -48,7 +49,21 @@ export function FirstVisit() {
             Bringing Your Dog for the First Time
           </h2>
           <p className="mt-[1.125rem] max-w-xl text-body text-[#bcd3db]">
-            Nothing to print at home. Three things and you are set.
+            Nothing to print at home. Three things and you are set. See{" "}
+            <Link
+              href="/pricing-policy/new-client-requirements"
+              className="font-semibold text-white underline underline-offset-4 hover:text-brand-200"
+            >
+              new client requirements
+            </Link>{" "}
+            and our{" "}
+            <Link
+              href="/pricing-policy/vaccination-policy"
+              className="font-semibold text-white underline underline-offset-4 hover:text-brand-200"
+            >
+              vaccination policy
+            </Link>
+            .
           </p>
 
           <ol className="mt-10 flex flex-col">

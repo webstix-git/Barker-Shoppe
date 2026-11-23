@@ -45,7 +45,7 @@ export function ServicePageView({ service, page }: Props) {
               <span className="rule-accent" aria-hidden="true" />
               <p className="eyebrow text-wine">{page.scheduleOverline}</p>
             </div>
-            <h2 className="mt-5 whitespace-nowrap text-display-lg">{page.scheduleTitle}</h2>
+            <h2 className="mt-5 text-display-lg sm:whitespace-nowrap">{page.scheduleTitle}</h2>
           </Reveal>
 
           <div className="relative mt-14">
@@ -128,7 +128,7 @@ export function ServicePageView({ service, page }: Props) {
                 <span className="rule-accent" aria-hidden="true" />
                 <p className="eyebrow text-wine">{page.ratesOverline}</p>
               </div>
-              <h2 className="mt-5 whitespace-nowrap text-display-lg">{page.ratesTitle}</h2>
+              <h2 className="mt-5 text-display-lg sm:whitespace-nowrap">{page.ratesTitle}</h2>
             </Reveal>
             <Reveal delay={0.08}>
               <ButtonLink href="/pricing-policy/rates-packages" variant="secondary">
@@ -167,7 +167,6 @@ export function ServicePageView({ service, page }: Props) {
           </Reveal>
         </div>
       </section>
-
       <CTASection title={page.ctaTitle} body={page.ctaBody} />
     </>
   );

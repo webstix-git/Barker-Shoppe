@@ -70,12 +70,46 @@ Open http://localhost:3000.
 
 ---
 
+## SEO & analytics
+
+### Google Tag Manager, Analytics & Search Console
+
+1. Create a [GTM container](https://tagmanager.google.com/) → copy Container ID (`GTM-XXXXXXXX`).
+2. (Optional) Create a [GA4 property](https://analytics.google.com/) if you are not loading GA through GTM.
+3. Create a [Search Console](https://search.google.com/search-console) property for `https://barkershoppesgf.com`.
+4. Verify ownership with the HTML tag method → copy the `content` value only.
+5. Copy `.env.example` to `.env.local` and fill in:
+
+```bash
+NEXT_PUBLIC_GTM_ID=GTM-K47N98SJ
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXX
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=your_token_here
+```
+
+6. Redeploy / restart the app so the env vars load.
+7. In Search Console, submit `https://barkershoppesgf.com/sitemap.xml`.
+
+When `NEXT_PUBLIC_GTM_ID` is set, GTM loads (preferred). Direct GA4 only loads if GTM is empty. GSC verification stays off until that env var is set.
+
+### Built-in SEO
+
+| Item | Location |
+| ---- | -------- |
+| XML sitemap | `/sitemap.xml` (`app/sitemap.ts`) |
+| robots.txt | `/robots.txt` (`app/robots.ts`) |
+| Canonical + titles + descriptions | `lib/seo.ts` + each page |
+| JSON-LD (LocalBusiness, WebSite, BreadcrumbList, Service) | `lib/schema.ts` |
+| Open Graph image | `app/opengraph-image.tsx` |
+| HTML sitemap | `/sitemap` |
+
+---
+
 ## Placeholders still to replace
 
 1. **Contact form endpoint** — validates and shows success, but does not send email yet (`components/contact/ContactForm.tsx`)
 2. **Team names & headshots** — placeholders on `/about`
 3. **Google Business map embed** — generic address query works; swap for GBP embed if preferred
-4. **Open Graph image** — add `app/opengraph-image.png` (1200×630)
+4. **GTM / GA4 / GSC env values** — set IDs in `.env.local` (see above)
 
 ---
 

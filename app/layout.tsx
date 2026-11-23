@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { Archivo, Karla } from "next/font/google";
 import type { ReactNode } from "react";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
+import { BackToTop } from "@/components/layout/BackToTop";
+import { DeferredIconStyles } from "@/components/layout/DeferredIconStyles";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { localBusinessSchema, websiteSchema } from "@/lib/schema";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -11,7 +17,7 @@ const display = Archivo({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-display",
-  weight: ["500", "600", "700", "800"],
+  weight: ["600", "700", "800"],
 });
 
 const body = Karla({
@@ -21,73 +27,75 @@ const body = Karla({
   weight: ["400", "500", "600", "700"],
 });
 
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "";
+const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
+const gscVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ?? "";
+
+const defaultTitle = "The Barker Shoppe | Daycare, Boarding & Grooming";
+const defaultDescription =
+  "Local dog daycare, boarding & grooming in Springfield, MO. Dogs only. Call (417) 501-1053.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "The Barker Shoppe | Dog Daycare, Boarding & Grooming in Springfield, MO",
+    default: defaultTitle,
     template: "%s | The Barker Shoppe",
   },
-  description:
-    "Locally owned dog daycare, overnight boarding, and professional grooming on East Bennett Street in Springfield, Missouri. Dogs only.",
+  description: defaultDescription,
   keywords: [
     "dog daycare Springfield MO",
     "dog boarding Springfield Missouri",
     "dog grooming Springfield MO",
     "Barker Shoppe",
     "The Barker Shoppe",
+    "pet boarding Springfield",
+    "dog daycare near me Springfield",
   ],
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  applicationName: site.name,
+  category: "Pet Care",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: site.url,
     siteName: site.name,
-    title: "The Barker Shoppe | Daycare, Boarding & Grooming",
-    description:
-      "Because every pet deserves a “paw” day. Safe, clean dog care in Springfield, MO.",
+    title: defaultTitle,
+    description: defaultDescription,
   },
-  twitter: { card: "summary_large_image" },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: defaultDescription,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  alternates: { canonical: site.url },
+  verification: gscVerification ? { google: gscVerification } : undefined,
   icons: {
-    icon: [{ url: "/icon.png", type: "image/png" }],
-    apple: [{ url: "/apple-icon.png", type: "image/png" }],
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
   },
-};
-
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "PetStore",
-  name: site.name,
-  slogan: site.tagline,
-  image: `${site.url}/images/barker-shoppe-logo.png`,
-  telephone: site.phoneDisplay,
-  email: site.email,
-  url: site.url,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: site.address.street,
-    addressLocality: site.address.city,
-    addressRegion: site.address.state,
-    postalCode: site.address.zip,
-    addressCountry: "US",
-  },
-  sameAs: [site.facebook],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <head>
-        {/* FlatIcon UIcons - regular-rounded set */}
-        <link
-          rel="stylesheet"
-          href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css"
-        />
-      </head>
-      <body>
+      <body id="top">
+        <DeferredIconStyles />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-pill focus:bg-navy focus:px-5 focus:py-3 focus:text-sm focus:font-bold focus:text-white"
@@ -98,11 +106,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <BackToTop />
 
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-        />
+        <JsonLd data={[localBusinessSchema(), websiteSchema()]} />
+        {gtmId ? <GoogleTagManager containerId={gtmId} /> : null}
+        {/* Prefer GTM for tags; load GA4 directly only when GTM is not configured */}
+        {!gtmId && gaId ? <GoogleAnalytics measurementId={gaId} /> : null}
       </body>
     </html>
   );

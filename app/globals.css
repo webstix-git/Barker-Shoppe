@@ -16,6 +16,12 @@
     html {
       scroll-behavior: auto;
     }
+
+    .animate-hero-rise {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 
   body {

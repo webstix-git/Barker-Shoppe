@@ -7,14 +7,15 @@ import { PageHero } from "@/components/shared/PageHero";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
+import { buildPageMetadata } from "@/lib/seo";
 import { hours, site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Contact Us",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Contact Us — Call (417) 501-1053",
   description:
-    "Call (417) 501-1053 or visit The Barker Shoppe at 1927 East Bennett Street, Springfield, MO 65804.",
-  alternates: { canonical: "/contact-us" },
-};
+    "Call (417) 501-1053, email Barkershoppe@gmail.com, or visit The Barker Shoppe at 1927 East Bennett Street, Springfield, MO 65804.",
+  path: "/contact-us",
+});
 
 export default function ContactPage() {
   return (
@@ -22,19 +23,37 @@ export default function ContactPage() {
       <PageHero
         overline="Contact Us"
         title="Contact Us"
-        lead="We're on East Bennett Street. Calling is the quickest way to book boarding or a grooming appointment."
+        lead={
+          <>
+            We&rsquo;re on East Bennett Street. Calling{" "}
+            <a
+              href={site.phoneHref}
+              className="font-semibold text-wine underline underline-offset-4 hover:text-brand-500"
+            >
+              {site.phoneDisplay}
+            </a>{" "}
+            or emailing{" "}
+            <a
+              href={`mailto:${site.email}`}
+              className="font-semibold text-wine underline underline-offset-4 hover:text-brand-500"
+            >
+              {site.email}
+            </a>{" "}
+            is the quickest way to book boarding or a grooming appointment.
+          </>
+        }
       />
       <Breadcrumbs items={[{ label: "Home", href: "/" }]} current="Contact Us" />
 
       <Section tone="warm">
-        <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
-          <Reveal from="left">
+        <div className="grid min-w-0 gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
+          <Reveal from="left" className="min-w-0">
             <ContactForm />
           </Reveal>
 
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
             <Reveal from="right" delay={0.08}>
-              <div className="rounded-[1.5rem] bg-white p-7 shadow-[0_10px_30px_rgba(13,44,56,0.06)] ring-1 ring-cream-dark sm:p-8">
+              <div className="rounded-[1.5rem] bg-white p-5 shadow-[0_10px_30px_rgba(13,44,56,0.06)] ring-1 ring-cream-dark sm:p-7 lg:p-8">
                 <h2 className="text-display-sm">Shoppe Details</h2>
 
                 <ul className="mt-7 space-y-6">
@@ -79,9 +98,9 @@ export default function ContactPage() {
                       <i className="fi fi-brands-facebook" aria-hidden="true" />
                     </span>
                     <div>
-                      <h3 className="font-display text-sm font-bold uppercase tracking-[0.1em] text-soft">
+                      <p className="font-display text-sm font-bold uppercase tracking-[0.1em] text-soft">
                         Facebook
-                      </h3>
+                      </p>
                       <a
                         href={site.facebook}
                         target="_blank"
@@ -97,7 +116,7 @@ export default function ContactPage() {
             </Reveal>
 
             <Reveal from="right" delay={0.16}>
-              <div className="rounded-[1.5rem] bg-white p-7 shadow-[0_10px_30px_rgba(13,44,56,0.06)] ring-1 ring-cream-dark sm:p-8">
+              <div className="rounded-[1.5rem] bg-white p-5 shadow-[0_10px_30px_rgba(13,44,56,0.06)] ring-1 ring-cream-dark sm:p-7 lg:p-8">
                 <div className="flex items-center gap-3">
                   <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-50 text-brand-600">
                     <Icon name="clock" />
@@ -140,7 +159,6 @@ export default function ContactPage() {
           </div>
         </Reveal>
       </Section>
-
       <CTASection
         title="Let's Get Your Dog on the Schedule"
         body="Have dates in mind for boarding, daycare, or a groom? Call or send a message and we will help."
@@ -166,9 +184,9 @@ function Detail({
         <Icon name={icon} />
       </span>
       <div>
-        <h3 className="font-display text-sm font-bold uppercase tracking-[0.1em] text-soft">
+        <p className="font-display text-sm font-bold uppercase tracking-[0.1em] text-soft">
           {label}
-        </h3>
+        </p>
         <div className="mt-1.5 text-body-sm text-ink">{body}</div>
         {link && (
           <a

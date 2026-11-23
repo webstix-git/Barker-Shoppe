@@ -20,9 +20,22 @@ export function HomeContact() {
               <p className="eyebrow text-wine">Come See Us</p>
             </div>
             <h2 className="mt-5 text-display-lg">Ready to Book? Give Us a Call</h2>
-            <p className="mt-[1.125rem] max-w-[31.25rem] text-body text-muted">
-              Questions about daycare, boarding, or grooming? Call or email - we are happy to help
-              Springfield dog owners get set up.
+            <p className="mt-[1.125rem] max-w-[31.25rem] text-body text-ink/80">
+              Questions about daycare, boarding, or grooming? Call{" "}
+              <a
+                href={site.phoneHref}
+                className="font-semibold text-wine underline underline-offset-4 hover:text-brand-500"
+              >
+                {site.phoneDisplay}
+              </a>{" "}
+              or email{" "}
+              <a
+                href={`mailto:${site.email}`}
+                className="font-semibold text-wine underline underline-offset-4 hover:text-brand-500"
+              >
+                {site.email}
+              </a>{" "}
+              - we are happy to help Springfield dog owners get set up.
             </p>
           </Reveal>
 
@@ -53,7 +66,7 @@ export function HomeContact() {
                 </ButtonLink>
               </div>
 
-              <p className="mt-7 border-t border-white/14 pt-[1.375rem] text-[0.9375rem] leading-[1.6] text-[#8fb0bc]">
+              <p className="mt-7 border-t border-white/14 pt-[1.375rem] text-[0.9375rem] leading-[1.6] text-brand-100">
                 Bring current Bordetella, DHPP, and Rabies records to your first visit.
               </p>
             </div>

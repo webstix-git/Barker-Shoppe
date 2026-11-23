@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { PawMark } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
@@ -31,7 +32,15 @@ export function WhyChooseUs() {
           </h2>
           <p className="mt-5 mb-8 max-w-xl text-body text-muted">
             We give Springfield owners a trusted place for their dogs to stay, play, and get groomed
-            - with the same love and attention they would get at home.
+            - with the same love and attention they would get at home. Learn more{" "}
+            <Link href="/about-us" className="font-semibold text-wine underline underline-offset-4">
+              about us
+            </Link>{" "}
+            or explore our{" "}
+            <Link href="/services" className="font-semibold text-wine underline underline-offset-4">
+              daycare, boarding, and grooming
+            </Link>
+            .
           </p>
 
           <div className="flex flex-col">

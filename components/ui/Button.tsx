@@ -42,18 +42,39 @@ export function Button({
   );
 }
 
+function isProtocolHref(href: ComponentProps<typeof Link>["href"]): boolean {
+  const value = typeof href === "string" ? href : href.pathname ?? "";
+  return /^(tel:|mailto:|sms:|http:|https:)/i.test(value);
+}
+
 type ButtonLinkProps = CommonProps &
   Omit<ComponentProps<typeof Link>, "className" | "children">;
 
+/**
+ * Styled link button. Uses a native <a> for tel:/mailto:/http(s)
+ * so phone and email CTAs always open correctly.
+ */
 export function ButtonLink({
   variant = "primary",
   size = "md",
   className,
   children,
+  href,
   ...rest
 }: ButtonLinkProps) {
+  const classes = cn(base, variants[variant], sizes[size], className);
+
+  if (isProtocolHref(href) && typeof href === "string") {
+    const { replace: _replace, scroll: _scroll, prefetch: _prefetch, ...anchorRest } = rest;
+    return (
+      <a href={href} className={classes} {...anchorRest}>
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <Link className={cn(base, variants[variant], sizes[size], className)} {...rest}>
+    <Link href={href} className={classes} {...rest}>
       {children}
     </Link>
   );

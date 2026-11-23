@@ -6,14 +6,15 @@ import { PageHero } from "@/components/shared/PageHero";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
+import { buildPageMetadata } from "@/lib/seo";
 import { galleryImages, site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Gallery",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Gallery — Dogs at Daycare, Boarding & Grooming",
   description:
-    "Fresh grooms, daycare afternoons, the summer pool, and seasonal backdrops at The Barker Shoppe in Springfield, Missouri.",
-  alternates: { canonical: "/gallery" },
-};
+    "Browse photos of fresh grooms, daycare play, the summer pool, and seasonal backdrops at The Barker Shoppe in Springfield, Missouri.",
+  path: "/gallery",
+});
 
 export default function GalleryPage() {
   return (
@@ -49,7 +50,6 @@ export default function GalleryPage() {
           </div>
         </Reveal>
       </Section>
-
       <CTASection />
     </>
   );

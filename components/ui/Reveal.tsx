@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 const EASE = [0.22, 0.61, 0.36, 1] as const;
 
@@ -15,23 +15,27 @@ type RevealProps = {
 };
 
 /**
- * Scroll-triggered fade/slide. Motion is skipped entirely when the visitor has
- * `prefers-reduced-motion` set - content still renders, just without animation.
+ * Scroll-triggered fade/slide. Animations start only after mount so SSR HTML
+ * matches the first client paint (avoids hydration console errors).
  */
 export function Reveal({ children, delay = 0, from = "bottom", className }: RevealProps) {
   const reduceMotion = useReducedMotion();
+  const [ready, setReady] = useState(false);
 
-  if (reduceMotion) return <div className={className}>{children}</div>;
+  useEffect(() => {
+    setReady(true);
+  }, []);
 
+  const animate = ready && reduceMotion === false;
   const offset =
     from === "bottom" ? { y: 24 } : from === "left" ? { x: -28 } : from === "right" ? { x: 28 } : {};
 
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
+      initial={animate ? { opacity: 0, ...offset } : false}
+      whileInView={animate ? { opacity: 1, x: 0, y: 0 } : undefined}
+      viewport={animate ? { once: true, amount: 0.15, margin: "0px 0px -40px 0px" } : undefined}
       transition={{ duration: 0.55, delay, ease: EASE }}
     >
       {children}
@@ -52,16 +56,21 @@ const itemVariants: Variants = {
 /** Wrap a grid to stagger its children's entrances. Pair with `<StaggerItem>`. */
 export function Stagger({ children, className }: { children: ReactNode; className?: string }) {
   const reduceMotion = useReducedMotion();
+  const [ready, setReady] = useState(false);
 
-  if (reduceMotion) return <div className={className}>{children}</div>;
+  useEffect(() => {
+    setReady(true);
+  }, []);
+
+  const animate = ready && reduceMotion === false;
 
   return (
     <motion.div
       className={className}
-      variants={listVariants}
-      initial="hidden"
-      whileInView="shown"
-      viewport={{ once: true, amount: 0.15, margin: "0px 0px -60px 0px" }}
+      variants={animate ? listVariants : undefined}
+      initial={animate ? "hidden" : false}
+      whileInView={animate ? "shown" : undefined}
+      viewport={animate ? { once: true, amount: 0.12, margin: "0px 0px -40px 0px" } : undefined}
     >
       {children}
     </motion.div>
@@ -70,11 +79,16 @@ export function Stagger({ children, className }: { children: ReactNode; classNam
 
 export function StaggerItem({ children, className }: { children: ReactNode; className?: string }) {
   const reduceMotion = useReducedMotion();
+  const [ready, setReady] = useState(false);
 
-  if (reduceMotion) return <div className={className}>{children}</div>;
+  useEffect(() => {
+    setReady(true);
+  }, []);
+
+  const animate = ready && reduceMotion === false;
 
   return (
-    <motion.div className={className} variants={itemVariants}>
+    <motion.div className={className} variants={animate ? itemVariants : undefined}>
       {children}
     </motion.div>
   );

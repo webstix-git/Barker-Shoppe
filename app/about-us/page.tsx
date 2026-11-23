@@ -8,14 +8,15 @@ import { Icon } from "@/components/ui/Icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { buildPageMetadata } from "@/lib/seo";
 import { site, values } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "About Us",
+export const metadata: Metadata = buildPageMetadata({
+  title: "About Us — Local Dog Daycare & Boarding",
   description:
-    "Locally owned dog daycare, boarding, and grooming on East Bennett Street in Springfield, MO - dogs only.",
-  alternates: { canonical: "/about-us" },
-};
+    "Meet The Barker Shoppe — a locally owned dog daycare, boarding, and grooming shoppe on East Bennett Street in Springfield, MO. Dogs only.",
+  path: "/about-us",
+});
 
 export default function AboutPage() {
   return (
@@ -112,7 +113,6 @@ export default function AboutPage() {
           ))}
         </Stagger>
       </Section>
-
       <CTASection tone="white" />
     </>
   );

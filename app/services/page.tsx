@@ -6,14 +6,15 @@ import { CTASection } from "@/components/shared/CTASection";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
+import { buildPageMetadata } from "@/lib/seo";
 import { getServicePage, services, vaccinationPolicy } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Services",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Dog Daycare, Boarding & Grooming Services",
   description:
-    "Dog daycare, overnight boarding, and professional grooming at The Barker Shoppe in Springfield, MO.",
-  alternates: { canonical: "/services" },
-};
+    "Compare dog daycare, overnight boarding, and professional grooming at The Barker Shoppe in Springfield, MO — all under one roof, dogs only.",
+  path: "/services",
+});
 
 export default function ServicesPage() {
   return (
@@ -165,7 +166,6 @@ export default function ServicesPage() {
           </Reveal>
         </div>
       </section>
-
       <CTASection
         title="Not Sure Which Service You Need?"
         body="Call us about daycare, boarding, or grooming and we will help you get set up."

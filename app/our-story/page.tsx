@@ -6,13 +6,14 @@ import { PageHero } from "@/components/shared/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Our Story",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Our Story — Why We Care for Springfield Dogs",
   description:
-    "Why The Barker Shoppe started - a safe, caring home-away-from-home for Springfield dogs.",
-  alternates: { canonical: "/our-story" },
-};
+    "Why The Barker Shoppe started — a safe, caring home-away-from-home for Springfield dogs, with daycare, boarding, and grooming under one roof.",
+  path: "/our-story",
+});
 
 export default function StoryPage() {
   return (
@@ -76,7 +77,6 @@ export default function StoryPage() {
           </div>
         </div>
       </Section>
-
       <CTASection title="Come Say Hi" body="Call or stop by and we will talk through what your dog needs." />
     </>
   );

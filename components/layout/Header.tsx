@@ -14,44 +14,38 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/** Parent overview first, then child pages (e.g. Services → All Services, Daycare…). */
+function dropdownItems(link: NavLink) {
+  if (!link.children?.length) return [];
+  return [{ label: link.label, href: link.href }, ...link.children];
+}
+
 function DesktopItem({ link, pathname }: { link: NavLink; pathname: string }) {
   const active = isActive(pathname, link.href);
   const childActive = link.children?.some((child) => isActive(pathname, child.href));
-  const [open, setOpen] = useState(false);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const items = dropdownItems(link);
+  const [pinned, setPinned] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setOpen(false);
+    setPinned(false);
   }, [pathname]);
 
   useEffect(() => {
-    return () => {
-      if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (!pinned) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setPinned(false);
     };
-  }, []);
-
-  const clearCloseTimer = () => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  };
-
-  const openMenu = () => {
-    clearCloseTimer();
-    setOpen(true);
-  };
-
-  const scheduleClose = () => {
-    clearCloseTimer();
-    closeTimer.current = setTimeout(() => setOpen(false), 120);
-  };
-
-  const closeMenu = () => {
-    clearCloseTimer();
-    setOpen(false);
-    (document.activeElement as HTMLElement | null)?.blur();
-  };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setPinned(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [pinned]);
 
   if (!link.children?.length) {
     return (
@@ -72,49 +66,66 @@ function DesktopItem({ link, pathname }: { link: NavLink; pathname: string }) {
 
   return (
     <div
-      className="relative"
-      onMouseEnter={openMenu}
-      onMouseLeave={scheduleClose}
+      ref={rootRef}
+      className={cn("group/nav relative", pinned && "is-open")}
     >
-      <Link
-        href={link.href}
-        aria-current={active && !childActive ? "page" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open}
-        onClick={closeMenu}
-        onFocus={openMenu}
-        className={cn(
-          "inline-flex items-center gap-1 border-b-2 py-1.5 font-display text-[0.9375rem] font-semibold transition-colors duration-300 xl:text-[1rem]",
-          active || childActive
-            ? "border-wine text-wine"
-            : "border-transparent text-ink hover:border-wine hover:text-wine",
-        )}
-      >
-        {link.label}
-        <Icon
-          name="angle-small-down"
+      <div className="inline-flex items-center gap-0.5">
+        <Link
+          href={link.href}
+          aria-current={active && !childActive ? "page" : undefined}
           className={cn(
-            "text-[0.85rem] transition-transform duration-300",
-            open && "rotate-180",
+            "border-b-2 py-1.5 font-display text-[0.9375rem] font-semibold transition-colors duration-300 xl:text-[1rem]",
+            active || childActive
+              ? "border-wine text-wine"
+              : "border-transparent text-ink hover:border-wine hover:text-wine",
           )}
-        />
-      </Link>
+        >
+          {link.label}
+        </Link>
+        <button
+          type="button"
+          aria-haspopup="true"
+          aria-expanded={pinned}
+          aria-label={`${pinned ? "Close" : "Open"} ${link.label} menu`}
+          onClick={(event) => {
+            event.preventDefault();
+            setPinned((value) => !value);
+          }}
+          className={cn(
+            "grid h-8 w-8 place-items-center rounded-full transition-colors duration-200",
+            active || childActive || pinned
+              ? "text-wine"
+              : "text-ink hover:bg-cream-dark hover:text-wine",
+          )}
+        >
+          <Icon
+            name="angle-small-down"
+            className={cn(
+              "text-[0.85rem] transition-transform duration-300",
+              pinned && "rotate-180",
+              "group-hover/nav:rotate-180 group-focus-within/nav:rotate-180",
+            )}
+          />
+        </button>
+      </div>
 
       <div
         className={cn(
-          "absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-2 transition-[opacity,visibility] duration-200",
-          open ? "visible opacity-100" : "invisible opacity-0 pointer-events-none",
+          "invisible absolute left-0 top-full z-[60] w-60 pt-2 opacity-0 transition-[opacity,visibility] duration-150",
+          "pointer-events-none group-hover/nav:pointer-events-auto group-hover/nav:visible group-hover/nav:opacity-100",
+          "group-focus-within/nav:pointer-events-auto group-focus-within/nav:visible group-focus-within/nav:opacity-100",
+          pinned && "pointer-events-auto !visible !opacity-100",
         )}
       >
         <ul className="overflow-hidden rounded-[1rem] bg-white py-2 shadow-photo ring-1 ring-cream-dark">
-          {link.children.map((child) => {
-            const childIsActive = isActive(pathname, child.href);
+          {items.map((child) => {
+            const childIsActive = pathname === child.href;
             return (
               <li key={child.href}>
                 <Link
                   href={child.href}
                   aria-current={childIsActive ? "page" : undefined}
-                  onClick={closeMenu}
+                  onClick={() => setPinned(false)}
                   className={cn(
                     "block px-4 py-2.5 font-display text-[0.9rem] font-semibold transition-colors duration-200",
                     childIsActive
@@ -149,6 +160,7 @@ function MobileItem({
   const active = isActive(pathname, link.href);
   const childActive = link.children?.some((child) => isActive(pathname, child.href));
   const expanded = openHref === link.href;
+  const items = dropdownItems(link);
 
   if (!link.children?.length) {
     return (
@@ -204,8 +216,8 @@ function MobileItem({
             transition={{ duration: 0.22, ease: [0.22, 0.61, 0.36, 1] }}
             className="overflow-hidden bg-white/70"
           >
-            {link.children.map((child) => {
-              const childIsActive = isActive(pathname, child.href);
+            {items.map((child) => {
+              const childIsActive = pathname === child.href;
               return (
                 <li key={child.href}>
                   <Link
@@ -237,7 +249,10 @@ export function Header() {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      setScrolled(y > 12);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -265,15 +280,15 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 bg-[#FEFBF5]/95 backdrop-blur-md transition-[box-shadow] duration-300",
+        "sticky top-0 z-[60] bg-[#FEFBF5]/95 backdrop-blur-md transition-[box-shadow] duration-300",
         scrolled && "shadow-header",
       )}
     >
       <div className="container-page">
         <div
           className={cn(
-            "flex flex-wrap items-center justify-between gap-4 py-3 transition-[min-height] duration-300 ease-gentle",
-            scrolled ? "min-h-[6.5rem]" : "min-h-[10.5rem]",
+            "flex flex-wrap items-center justify-between gap-3 py-2.5 sm:gap-4 sm:py-3 transition-[min-height] duration-300 ease-gentle",
+            scrolled ? "min-h-[5.25rem] sm:min-h-[6.5rem]" : "min-h-[7.25rem] sm:min-h-[9rem] lg:min-h-[10.5rem]",
           )}
         >
           <Logo compact={scrolled} />
@@ -287,7 +302,7 @@ export function Header() {
           <div className="flex items-center gap-2 sm:gap-3">
             <a
               href={site.phoneHref}
-              className="hidden items-center gap-2.5 font-display text-[1.125rem] font-bold text-ink transition-colors duration-300 hover:text-wine sm:inline-flex"
+              className="hidden items-center gap-2.5 font-display text-[1.125rem] font-bold text-ink underline-offset-4 transition-colors duration-300 hover:text-wine hover:underline sm:inline-flex"
             >
               <Icon name="phone-call" className="text-[1.05rem]" />
               {site.phoneDisplay}

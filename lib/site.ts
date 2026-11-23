@@ -4,13 +4,20 @@
  * the attached homepage design, and the printed rate sheet.
  */
 
+import { formatPhoneDisplay, telHref } from "@/lib/phone";
+
+/** Business phone in E.164 international format (+1 country code). */
+export const PHONE_E164 = "+14175011053" as const;
+
 export const site = {
   name: "The Barker Shoppe",
   shortName: "Barker Shoppe",
   tagline: "Because every pet deserves a \u201Cpaw\u201D day.",
   url: "https://barkershoppesgf.com",
-  phoneDisplay: "(417) 501-1053",
-  phoneHref: "tel:+14175011053",
+  /** E.164 — use in schema, APIs, and `tel:` links. */
+  phoneE164: PHONE_E164,
+  phoneDisplay: formatPhoneDisplay(PHONE_E164),
+  phoneHref: telHref(PHONE_E164),
   email: "Barkershoppe@gmail.com",
   facebook: "https://www.facebook.com/barkershoppe",
   address: {
@@ -92,6 +99,46 @@ export function pageLabel(href: string): string {
   return pageLabels[path as keyof typeof pageLabels] ?? path;
 }
 
+/** Hierarchical public pages for the sitemap and 404 page. */
+export const sitemapSections = [
+  {
+    heading: "Main",
+    pages: [
+      { label: "Home", href: "/" },
+      {
+        label: "About Us",
+        href: "/about-us",
+        children: [...aboutNav],
+      },
+      { label: "Contact Us", href: "/contact-us" },
+      { label: "Gallery", href: "/gallery" },
+      { label: "Sitemap", href: "/sitemap" },
+    ],
+  },
+  {
+    heading: "Services",
+    pages: [
+      { label: "All Services", href: "/services" },
+      ...serviceNav.map((item) => ({ label: item.label, href: item.href })),
+    ],
+  },
+  {
+    heading: "Pricing & Policy",
+    pages: [
+      { label: "Pricing & Policy overview", href: "/pricing-policy" },
+      ...pricingNav.map((item) => ({ label: item.label, href: item.href })),
+    ],
+  },
+  {
+    heading: "Policies",
+    pages: [
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "AI Policy", href: "/ai-policy" },
+      { label: "AI Readiness Service Index", href: "/ai-readiness-service-index" },
+    ],
+  },
+] as const;
+
 /** FlatIcon UIcons class suffixes (regular-rounded set). */
 export type FiIcon =
   | "paw"
@@ -119,7 +166,9 @@ export type FiIcon =
   | "interrogation"
   | "menu-dots"
   | "cross"
-  | "angle-small-down";
+  | "angle-small-down"
+  | "angle-small-up"
+  | "arrow-up";
 
 export type Service = {
   slug: "daycare" | "boarding" | "grooming";

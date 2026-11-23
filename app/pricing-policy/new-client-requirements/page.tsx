@@ -6,14 +6,15 @@ import { PageHero } from "@/components/shared/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { buildPageMetadata } from "@/lib/seo";
 import { firstVisitSteps } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "New Client Requirements",
+export const metadata: Metadata = buildPageMetadata({
+  title: "New Client Requirements — First Visit Checklist",
   description:
-    "What to bring for your dog’s first visit at The Barker Shoppe - intake form, shot records, and how daycare is matched.",
-  alternates: { canonical: "/pricing-policy/new-client-requirements" },
-};
+    "What to bring for your dog’s first visit at The Barker Shoppe in Springfield, MO — shot records, intake form at drop-off, and food or meds.",
+  path: "/pricing-policy/new-client-requirements",
+});
 
 export default function NewClientsPage() {
   return (
@@ -35,7 +36,7 @@ export default function NewClientsPage() {
         <SectionHeading
           overline="Same Day Checklist"
           title={
-            <span className="whitespace-nowrap">Three Steps and You Are Rolling</span>
+            <span className="sm:whitespace-nowrap">Three Steps and You Are Rolling</span>
           }
           className="max-w-none"
         />
@@ -63,7 +64,6 @@ export default function NewClientsPage() {
           </p>
         </Reveal>
       </Section>
-
       <CTASection />
     </>
   );

@@ -9,6 +9,8 @@ type SectionHeadingProps = {
   align?: "left" | "center";
   onDark?: boolean;
   className?: string;
+  /** Document outline level. Default h2 for page sections. */
+  as?: "h2" | "h3";
 };
 
 export function SectionHeading({
@@ -18,6 +20,7 @@ export function SectionHeading({
   align = "left",
   onDark = false,
   className,
+  as: Tag = "h2",
 }: SectionHeadingProps) {
   return (
     <Reveal className={cn("max-w-2xl", align === "center" && "mx-auto text-center", className)}>
@@ -27,7 +30,7 @@ export function SectionHeading({
           <p className={cn("eyebrow", onDark ? "text-brand-200" : "text-wine")}>{overline}</p>
         </div>
       )}
-      <h2 className={cn("mt-5 text-display-lg", onDark && "text-white")}>{title}</h2>
+      <Tag className={cn("mt-5 text-display-lg", onDark && "text-white")}>{title}</Tag>
       {lead && (
         <p className={cn("mt-5 text-body", onDark ? "text-white/80" : "text-soft")}>{lead}</p>
       )}

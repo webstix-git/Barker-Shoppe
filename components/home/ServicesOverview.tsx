@@ -16,7 +16,7 @@ export function ServicesOverview() {
         <SectionHeading
           overline="What We Do"
           title={
-            <span className="whitespace-nowrap">Three Services, One Front Door</span>
+            <span className="sm:whitespace-nowrap">Three Services, One Front Door</span>
           }
           lead="Daycare, overnight boarding, and professional grooming - all in one place for Springfield dog owners."
           className="max-w-none"
