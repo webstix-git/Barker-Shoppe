@@ -29,7 +29,9 @@ const body = localFont({
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "";
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
-const gscVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ?? "";
+const gscVerification =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ||
+  "_U5KG5PSiW7ALvoVzLm_8BUsEZprhhT9S9a_s-5Zq-c";
 
 const defaultTitle = "The Barker Shoppe | Daycare, Boarding & Grooming";
 const defaultDescription =
@@ -109,9 +111,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <BackToTop />
 
         <JsonLd data={[localBusinessSchema(), websiteSchema()]} />
-        {gtmId ? <GoogleTagManager containerId={gtmId} /> : null}
-        {/* Prefer GTM for tags; load GA4 directly only when GTM is not configured */}
-        {!gtmId && gaId ? <GoogleAnalytics measurementId={gaId} /> : null}
+        {/* One tracker only: GA4 direct, or GTM (not both — avoids double counting). */}
+        {gaId ? (
+          <GoogleAnalytics measurementId={gaId} />
+        ) : gtmId ? (
+          <GoogleTagManager containerId={gtmId} />
+        ) : null}
       </body>
     </html>
   );
