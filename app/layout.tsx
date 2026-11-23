@@ -3,12 +3,14 @@ import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
+import { MidwestTracker } from "@/components/analytics/MidwestTracker";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { DeferredIconStyles } from "@/components/layout/DeferredIconStyles";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { localBusinessSchema, websiteSchema } from "@/lib/schema";
+import { defaultOgImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -29,6 +31,11 @@ const body = localFont({
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "";
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
+const midwestTrackSiteId =
+  process.env.NEXT_PUBLIC_MIDWEST_TRACK_SITE_ID?.trim() || "1a701f8d5e2f4548";
+const midwestTrackEndpoint =
+  process.env.NEXT_PUBLIC_MIDWEST_TRACK_ENDPOINT?.trim() ||
+  "https://ywwxvriolxwuqcwjaluh.supabase.co/functions/v1/track-event";
 const gscVerification =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ||
   "_U5KG5PSiW7ALvoVzLm_8BUsEZprhhT9S9a_s-5Zq-c";
@@ -65,11 +72,13 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: defaultTitle,
     description: defaultDescription,
+    images: [defaultOgImage],
   },
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
+    images: [defaultOgImage.url],
   },
   robots: {
     index: true,
@@ -117,6 +126,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         ) : gtmId ? (
           <GoogleTagManager containerId={gtmId} />
         ) : null}
+        <MidwestTracker siteId={midwestTrackSiteId} endpoint={midwestTrackEndpoint} />
       </body>
     </html>
   );

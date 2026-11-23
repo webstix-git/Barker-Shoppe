@@ -12,6 +12,17 @@ function isAssetOrInternal(pathname: string) {
   if (pathname.startsWith("/_next")) return true;
   if (pathname.startsWith("/api")) return true;
   if (pathname.startsWith("/images")) return true;
+  // Next.js metadata routes (no file extension)
+  if (
+    pathname === "/opengraph-image" ||
+    pathname.startsWith("/opengraph-image/") ||
+    pathname === "/twitter-image" ||
+    pathname.startsWith("/twitter-image/") ||
+    pathname === "/icon" ||
+    pathname === "/apple-icon"
+  ) {
+    return true;
+  }
   // Static/metadata files: favicon.ico, robots.txt, sitemap.xml, icons, og images
   if (pathname.includes(".")) return true;
   return false;

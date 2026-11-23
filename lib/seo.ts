@@ -17,6 +17,14 @@ export function absoluteUrl(path = "/"): string {
   return `${site.url}${normalized}`;
 }
 
+/** Default social / featured image (homepage hero screenshot). */
+export const defaultOgImage = {
+  url: absoluteUrl("/images/og-featured.jpg"),
+  width: 1200,
+  height: 630,
+  alt: "The Barker Shoppe — Great Care for Dogs. Peace of Mind for You. Springfield, MO",
+} as const;
+
 /** Shared page metadata: absolute canonical, Open Graph, Twitter. */
 export function buildPageMetadata({
   title,
@@ -41,11 +49,13 @@ export function buildPageMetadata({
       siteName: site.name,
       locale: "en_US",
       type: "website",
+      images: [defaultOgImage],
     },
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
       description,
+      images: [defaultOgImage.url],
     },
     ...(noIndex
       ? { robots: { index: false, follow: false } }
